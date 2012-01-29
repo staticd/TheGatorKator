@@ -119,7 +119,7 @@ all: TheGatorKator.out
 TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/hardware" -i"C:/ti/ccsv5/tools/compiler/c6000/include" --reread_libs --rom_model -o "TheGatorKator.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" -i"C:/ti/ccsv5/tools/compiler/c6000/include" --reread_libs --rom_model -o "TheGatorKator.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

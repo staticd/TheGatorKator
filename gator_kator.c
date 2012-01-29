@@ -54,7 +54,7 @@ short gain = 1;
 short output_signal;
 short temp = 0;
 int zero_count = 0;
-volatile short zero_count_flag = 0;
+short zero_count_flag = 0;
 // debug
 
 // filter_signal
@@ -113,7 +113,7 @@ short col = 0;
 // playback
 
 // main
-volatile short program_control = 0;	// always start in collect samples mode
+short program_control = 0;	// always start in collect samples mode
 #define MAX_INT 2147483647
 // main
 
@@ -156,7 +156,6 @@ void fft (struct buffer *, int , int );	// function prototype
 
 interrupt void c_int11() {
 
-	printf("hello\n");
 	// collect samples
 
 	if (program_control == 0) {
@@ -177,7 +176,7 @@ interrupt void c_int11() {
 
 				row_index++;	// increment row index by 1
 				column_index = 0;	// reset column index back to 0
-				//printf("collecting frame number: %d\n", row_index);
+				printf("collecting frame number: %d\n", row_index);
 			}
 		}
 	}
@@ -203,11 +202,32 @@ interrupt void c_int11() {
 
 				printf ("Counted %d zeros in collected samples.\n", zero_count);
 				zero_count_flag = 1;
+				program_control = 2;
 			}
 		}
 	}
 	// playback
-	printf("hello agian\n");
+
+	// debug
+	if (DEBUG == 0) {
+
+		output_signal = (short)(filter_signal(sample_data)*gain); // make sure that the gain here is appropriate
+		output_sample( output_signal ); // output has to be short int!
+
+		if (output_signal > temp) {
+
+			temp = output_signal;
+		}
+	}
+
+	if (DEBUG == 2) {
+
+		output = playback();
+		output_sample(output);
+
+	}
+	// debug
+
 	return;
 }
 
@@ -304,22 +324,7 @@ short playback() {
 		row = 0;
 	}
 
-	// debug
-	if (DEBUG == 0) {
-
-		output_signal = (short)(filter_signal(data_buffer.data[row][col].real)*gain); // make sure that the gain here is appropriate
-
-		if (output_signal > temp) {
-
-			temp = output_signal;
-		}
-
-		return output_signal;
-	} // debug
-	else {
-
-		return (short)data_buffer.data[row][col].real;
-	}
+	return (short)data_buffer.data[row][col].real;
 }
 
 /*************************************************
