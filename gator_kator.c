@@ -22,8 +22,9 @@
 #include <time.h>
 
 #include "dsk6713_aic23.h"	// codec support
-#include "bp_bellow.h"	// bandpass filter coefficients
+#include "four_k_lpf.h"	// lpf filter coeffs type: short
 
+//f this
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
@@ -378,8 +379,8 @@ short block_dc(short sample) {
 	 *
 	 * We need a much better dc blocker than this!
 	 ***********************************************/
-	dc = word1 * (32768 - dc_coeff) +
-			((word2 * (32768 - dc_coeff)) >> 15) +
+	dc = word1 * (32767 - dc_coeff) +
+			((word2 * (32767 - dc_coeff)) >> 15) +
 				sample * dc_coeff;	// dc = dc*(1-coeff) + sample*coeff
 
 	return sample - (dc >> 15);	// return sample - dc
