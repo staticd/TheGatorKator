@@ -24,6 +24,13 @@ c6713dskinit.obj: ../c6713dskinit.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+fir_filter.obj: ../fir_filter.c $(GEN_OPTS) $(GEN_SRCS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C6000 Compiler'
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --include_path="C:/ti/ccsv5/tools/compiler/c6000/include" --include_path="C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/misc_contents/lib_and_h" --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi --preproc_with_compile --preproc_dependency="fir_filter.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 gator_kator.obj: ../gator_kator.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C6000 Compiler'

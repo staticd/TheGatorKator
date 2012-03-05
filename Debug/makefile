@@ -9,6 +9,7 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/c6000
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./gator_kator.obj" \
+"./fir_filter.obj" \
 "./c6713dskinit.obj" \
 "./Vectors_intr.obj" \
 "../C6713dsk.cmd" \
@@ -119,15 +120,15 @@ all: TheGatorKator.out
 TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" -i"C:/ti/ccsv5/tools/compiler/c6000/include" --reread_libs --rom_model -o "TheGatorKator.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" $(ORDERED_OBJS) -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" -i"C:/ti/ccsv5/tools/compiler/c6000/include" --reread_libs --rom_model -o "TheGatorKator.out"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "TheGatorKator.out"
-	-$(RM) "c6713dskinit.pp" "gator_kator.pp" 
-	-$(RM) "Vectors_intr.obj" "c6713dskinit.obj" "gator_kator.obj" 
+	-$(RM) "c6713dskinit.pp" "fir_filter.pp" "gator_kator.pp" 
+	-$(RM) "Vectors_intr.obj" "c6713dskinit.obj" "fir_filter.obj" "gator_kator.obj" 
 	-$(RM) "Vectors_intr.pp" "c6713dskinit.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '
