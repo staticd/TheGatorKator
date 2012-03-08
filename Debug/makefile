@@ -113,22 +113,22 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: TheGatorKator.out
+all: C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/project/TheGatorKator/Debug/TheGatorKator.out
 
 # Tool invocations
-TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
+C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/project/TheGatorKator/Debug/TheGatorKator.out: $(OBJS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" --cmd_file="C:\Users\staticd\Documents\COLLEGE\EEL 4935 DSP_FPGA\misc_contents\lib_and_h\C6713dsk.cmd"  -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/ti/ccsv5/tools/compiler/c6000/include" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/misc_contents/lib_and_h" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" --reread_libs --rom_model -o "TheGatorKator.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" --cmd_file="C:\Users\staticd\Documents\COLLEGE\EEL 4935 DSP_FPGA\misc_contents\lib_and_h\C6713dsk.cmd"  -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator/Debug/TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/ti/ccsv5/tools/compiler/c6000/include" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/misc_contents/lib_and_h" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" --reread_libs --rom_model -o "C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator/Debug/TheGatorKator.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "TheGatorKator.out"
+	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "C:\Users\staticd\Documents\COLLEGE\EEL 4935 DSP_FPGA\project\TheGatorKator\Debug\TheGatorKator.out"
 	-$(RM) "c6713dskinit.pp" "fir_filter.pp" "gator_kator.pp" 
 	-$(RM) "Vectors_intr.obj" "c6713dskinit.obj" "fir_filter.obj" "gator_kator.obj" 
-	-$(RM) "Vectors_intr.pp" "c6713dskinit.pp" 
+	-$(RM) "Vectors_intr.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

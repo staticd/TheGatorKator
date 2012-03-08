@@ -5,7 +5,7 @@
 #define DSK6713_AIC23_INPUT_MIC 0x0015	// as defined in C6713dskinit.h
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ;	// set sampling rate
 Uint16 inputsource = DSK6713_AIC23_INPUT_MIC;	// select input
-
+//
 short left_sample, right_sample;
 
 interrupt void c_int11() {

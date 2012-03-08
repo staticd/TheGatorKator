@@ -9,8 +9,7 @@ LIB_SRCS += \
 ../rts6700.lib 
 
 ASM_SRCS += \
-../Vectors_intr.asm \
-../c6713dskinit.asm 
+../Vectors_intr.asm 
 
 C_SRCS += \
 ../c6713dskinit.c \
@@ -24,8 +23,7 @@ OBJS += \
 ./gator_kator.obj 
 
 ASM_DEPS += \
-./Vectors_intr.pp \
-./c6713dskinit.pp 
+./Vectors_intr.pp 
 
 C_DEPS += \
 ./c6713dskinit.pp \
@@ -44,12 +42,10 @@ OBJS__QUOTED += \
 "gator_kator.obj" 
 
 ASM_DEPS__QUOTED += \
-"Vectors_intr.pp" \
-"c6713dskinit.pp" 
+"Vectors_intr.pp" 
 
 ASM_SRCS__QUOTED += \
-"../Vectors_intr.asm" \
-"../c6713dskinit.asm" 
+"../Vectors_intr.asm" 
 
 C_SRCS__QUOTED += \
 "../c6713dskinit.c" \

@@ -1,1 +1,1 @@
-"../Vectors_intr.asm" "../c6713dskinit.asm" "../c6713dskinit.c" "../fir_filter.c" "../gator_kator.c" 
+"../Vectors_intr.asm" "../c6713dskinit.c" "../fir_filter.c" "../gator_kator.c" 
