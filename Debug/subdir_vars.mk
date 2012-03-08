@@ -3,9 +3,6 @@
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
-CMD_SRCS += \
-../C6713dsk.cmd 
-
 LIB_SRCS += \
 ../csl6713.lib \
 ../dsk6713bsl.lib \

@@ -1,1 +1,1 @@
-"./gator_kator.obj" "./fir_filter.obj" "./c6713dskinit.obj" "./Vectors_intr.obj" "../C6713dsk.cmd" "../csl6713.lib" "../dsk6713bsl.lib" "../rts6700.lib" 
+"./gator_kator.obj" "./fir_filter.obj" "./c6713dskinit.obj" "./Vectors_intr.obj" "../csl6713.lib" "../dsk6713bsl.lib" "../rts6700.lib" 

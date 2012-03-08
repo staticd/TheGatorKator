@@ -17,7 +17,7 @@
    .global _vector14
    .global _vector15
 
-   .ref _c_int00				;entry address
+   .ref _c_int11				;entry address
 
 VEC_ENTRY .macro addr			;macro for ISR
     STW   B0,*--B15

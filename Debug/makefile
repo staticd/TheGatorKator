@@ -12,7 +12,6 @@ $(GEN_CMDS__FLAG) \
 "./fir_filter.obj" \
 "./c6713dskinit.obj" \
 "./Vectors_intr.obj" \
-"../C6713dsk.cmd" \
 "../csl6713.lib" \
 "../dsk6713bsl.lib" \
 "../rts6700.lib" \
@@ -120,7 +119,7 @@ all: TheGatorKator.out
 TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" $(ORDERED_OBJS) -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" -i"C:/ti/ccsv5/tools/compiler/c6000/include" --reread_libs --rom_model -o "TheGatorKator.out"
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" --cmd_file="C:\Users\staticd\Documents\COLLEGE\EEL 4935 DSP_FPGA\misc_contents\lib_and_h\C6713dsk.cmd"  -mv-mv6710+ -g --define=CHIP_6713 --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi -z -m"TheGatorKator.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c6000/lib" -i"C:/ti/ccsv5/tools/compiler/c6000/include" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/misc_contents/lib_and_h" -i"C:/Users/staticd/Documents/COLLEGE/EEL 4935 DSP_FPGA/project/TheGatorKator" --reread_libs --rom_model -o "TheGatorKator.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
