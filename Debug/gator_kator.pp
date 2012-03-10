@@ -27,10 +27,7 @@ gator_kator.obj: C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_con
 gator_kator.obj: C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/csl_timerhal.h
 gator_kator.obj: C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/csl_mcbsp.h
 gator_kator.obj: C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/csl_mcbsphal.h
-gator_kator.obj: ../bp_bellow.h
-gator_kator.obj: C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/tmwtypes.h
-gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/limits.h
-gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/stddef.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fir_filter.h
 
 ../gator_kator.c: 
 C:/ti/ccsv5/tools/compiler/c6000/include/stdio.h: 
@@ -59,7 +56,4 @@ C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/c
 C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/csl_timerhal.h: 
 C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/csl_mcbsp.h: 
 C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/csl_mcbsphal.h: 
-../bp_bellow.h: 
-C:/Users/staticd/Documents/COLLEGE/EEL\ 4935\ DSP_FPGA/misc_contents/lib_and_h/tmwtypes.h: 
-C:/ti/ccsv5/tools/compiler/c6000/include/limits.h: 
-C:/ti/ccsv5/tools/compiler/c6000/include/stddef.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fir_filter.h: 

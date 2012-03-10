@@ -12,45 +12,59 @@ LIB_SRCS += \
 ../rts6700.lib 
 
 ASM_SRCS += \
-../Vectors_intr.asm \
-../c6713dskinit.asm 
+../Vectors_intr.asm 
 
 C_SRCS += \
+../block_dc.c \
 ../c6713dskinit.c \
+../detect_envelope.c \
+../fir_filter.c \
 ../gator_kator.c 
 
 OBJS += \
 ./Vectors_intr.obj \
+./block_dc.obj \
 ./c6713dskinit.obj \
+./detect_envelope.obj \
+./fir_filter.obj \
 ./gator_kator.obj 
 
 ASM_DEPS += \
-./Vectors_intr.pp \
-./c6713dskinit.pp 
+./Vectors_intr.pp 
 
 C_DEPS += \
+./block_dc.pp \
 ./c6713dskinit.pp \
+./detect_envelope.pp \
+./fir_filter.pp \
 ./gator_kator.pp 
 
 C_DEPS__QUOTED += \
+"block_dc.pp" \
 "c6713dskinit.pp" \
+"detect_envelope.pp" \
+"fir_filter.pp" \
 "gator_kator.pp" 
 
 OBJS__QUOTED += \
 "Vectors_intr.obj" \
+"block_dc.obj" \
 "c6713dskinit.obj" \
+"detect_envelope.obj" \
+"fir_filter.obj" \
 "gator_kator.obj" 
 
 ASM_DEPS__QUOTED += \
-"Vectors_intr.pp" \
-"c6713dskinit.pp" 
+"Vectors_intr.pp" 
 
 ASM_SRCS__QUOTED += \
-"../Vectors_intr.asm" \
-"../c6713dskinit.asm" 
+"../Vectors_intr.asm" 
 
 C_SRCS__QUOTED += \
+"../block_dc.c" \
 "../c6713dskinit.c" \
+"../detect_envelope.c" \
+"../fir_filter.c" \
 "../gator_kator.c" 
 
 

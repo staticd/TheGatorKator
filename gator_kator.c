@@ -21,19 +21,12 @@
 #include <math.h>
 #include <time.h>
 
-#include "dsk6713_aic23.h"	// codec support
-#include "bp_bellow.h"	// bandpass filter coefficients
+#include <dsk6713_aic23.h>	// codec support
+#include <fir_filter.h>
 
+// set input and sample rate
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
-
-/******************************************************************************
- * Here, I set Fs to be 8 kHz.  This is because most of the energy in the nine
- * samples I have is between 0 and 4 kHz.  Now, one of the samples has some
- * frequency componenets out to 12 kHz so that is something to consider down
- * the road.  For now, I set Fs to get as much data into one buffer as possible
- * and that helps make sure the application is very fast.
- *****************************************************************************/
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ;   //set sampling rate
 Uint16 inputsource = DSK6713_AIC23_INPUT_MIC;	//select input
 
@@ -56,22 +49,6 @@ short temp = 0;
 int zero_count = 0;
 short zero_count_flag = 0;
 // debug
-
-// filter_signal
-float filter_signal(short);	// function prototype
-float x[B];	// initialize samples
-// filter_signal
-
-// block_dc
-short block_dc(short);	// function prototype
-#define dc_coeff 10	// coefficient for the DC blocking filter
-// block_dc
-
-// detect_envelope
-short detect_envelope(short);	// function prototype
-#define env_coeff 4000	// 32768  envelope filter parameter
-int envelope = 0;	// current sample of the signal envelope (32-bit)
-// detect_envelope
 
 // buffer declaration
 #define column_len 512
@@ -102,7 +79,6 @@ short signal_on = 0;
 short column_index = 0;
 short row_index = 0;
 int samples_collected;
-short sample_data;	// variable that stores the current sample
 short output;	// output variable for processed sample
 // interrupts
 
@@ -147,16 +123,10 @@ Uint32 DSK6713_DIP_get(Uint32);
 // function prototypes for C6713init.h and functions defined in csl6713.lib
 ///////////////////////////////////////////////////////////////////////////////
 
-// fft
-
-// # of points for FFT, 512 => 10 Hz resolution for Nyquist = 4 kHz
-void fft (struct buffer *, int , int );	// function prototype
-#define PI 3.14159
-// fft
-
 interrupt void c_int11() {
 
 	// collect samples
+	short sample_data;	// variable that stores the current sample
 
 	if (program_control == 0) {
 
@@ -231,82 +201,6 @@ interrupt void c_int11() {
 	return;
 }
 
-/***************************************************
- * Function: fft() is based on speaker_recognition.c
- * Written by Vasanthan Rangan and Sowmya Narayanan
- ***************************************************/
-
-// args ==> sampled data, n = number of points, m = total number of stages !SET m in main()!!!!!!!!!!!!!!!!!!!!!!!!!!!
-void fft(struct buffer *input_data, int n, int m) {
-
-	/*******************************************
-	 * n1 ==> difference between upper and lower
-	 * i, j, k, l ==> counters
-	 * row_index ==> used to index every frame
-	 *******************************************/
-	int n1,n2,i,j,k,l,row_index;
-
-	/******************************************************
-	 * xt,yt ==> temporary real and imaginary, respectively
-	 * c ==> cosine
-	 * s ==> sine
-	 * e, a ==> computing the arguments to cosine and sine
-	 *****************************************************/
-	float xt,yt,c,s,e,a;
-
-	// for each frame
-	for ( row_index = 0; row_index < row_len; row_index++) {
-
-		// Loop through all the stages
-		n2 = n;
-
-		for ( k=0; k<m; k++) {
-
-			n1 = n2;
-			n2 = n2/2;
-			e = PI/n1;
-
-			// Compute Twiddle Factors
-			for ( j= 0; j<n2; j++) {
-
-				a = j*e;
-				c = (float) cos(a);
-				s = (float) sin(a);
-
-				// Do the Butterflies for all `column_len' samples
-				for (i=j; i<n; i+= n1) {
-
-					l = i+n2;
-					xt = input_data->data[row_index][i].real - input_data->data[row_index][l].real;
-					input_data->data[row_index][i].real = input_data->data[row_index][i].real+input_data->data[row_index][l].real;
-					yt = input_data->data[row_index][i].imag - input_data->data[row_index][l].imag;
-					input_data->data[row_index][i].imag = input_data->data[row_index][i].imag+input_data->data[row_index][l].imag;
-					input_data->data[row_index][l].real = c*xt + s*yt;
-					input_data->data[row_index][l].imag = c*yt - s*yt;
-				}
-			}
-		}
-
-		// Bit Reversal
-		j = 0;
-
-		for ( i=0; i<n-1; i++) {
-
-			if (i<j) {
-
-				xt = input_data->data[row_index][j].real;
-				input_data->data[row_index][j].real = input_data->data[row_index][i].real;
-				input_data->data[row_index][i].real = xt;
-				yt = input_data->data[row_index][j].imag;
-				input_data->data[row_index][j].imag = input_data->data[row_index][i].imag;
-				input_data->data[row_index][i].imag = yt;
-			}
-		}
-	}
-
-	return;
-}
-
 /********************************************************
  * Function: playback() is based on speaker_recognition.c
  * Written by Vasanthan Rangan and Sowmya Narayanan
@@ -327,89 +221,6 @@ short playback() {
 	return (short)data_buffer.data[row][col].real;
 }
 
-/*************************************************
- * Function: filter_signal is based on FIR4types.c
- * Written by Rulph Chassaing
- *************************************************/
-float filter_signal(short sample) {
-
-	float yn = 0.0;
-	int i;
-	x[0] = (float)detect_envelope(block_dc(sample));	// x[0] = sample --> block dc --> detect envelope
-
-	for (i = 0; i < B; i++) yn += (h[i] * x[i]); // y(n) = sum[ filter_coeff * x(n-i) ]
-
-	for (i = B -1; i > 0; i--) x[i] = x[i - 1];	// shift each input so we feed the transfer function
-
-	return yn;
-}
-
-/**************************************************
- * Function: block_dc is based on block_dc.c
- * Written by Vasanthan Rangan and Sowmya Narayanan
- **************************************************/
-short block_dc(short sample) {
-
-	int dc = 0;	// current DC estimate (32-bit: SS30-bit)
-	short word1,word2;
-
-	if (dc < 0) {
-
-		word1 = -((-dc) >> 15);	// equal to +1 for all values less than 0
-		word2 = -((-dc) & 0x00007fff);	// equal to actual sample value
-	}
-	else {
-
-		/***************************************************************
-		 * word1 = high-order 15-bit word of dc ==> this is zero for all
-		 * positive integers
-		 ***************************************************************/
-		word1 = dc >> 15;
-		/******************************************************************
-		 * word2 = low-order 15-bit word of dc ==> this is the dc value +dc
-		 ******************************************************************/
-		word2 = dc & 0x00007fff;
-	}
-
-	/***********************************************
-	 * It turns out that this function just returns:
-	 * 	if sample < 0 --> return sample - 1
-	 * 	if sample > 0 --> return sample
-	 *
-	 * We need a much better dc blocker than this!
-	 ***********************************************/
-	dc = word1 * (32768 - dc_coeff) +
-			((word2 * (32768 - dc_coeff)) >> 15) +
-				sample * dc_coeff;	// dc = dc*(1-coeff) + sample*coeff
-
-	return sample - (dc >> 15);	// return sample - dc
-}
-
-/*********************************************************
- * Function: detect_envelope is based on detect_envelope.c
- * Written by Vasanthan Rangan and Sowmya Narayanan
- *********************************************************/
-short detect_envelope(short sample)
-{
-	/*************************************
-	 * If sample = 32767, envelope = 4065
-	 * if sample = -32768, envelope = -431
-	 *************************************/
-	short word1,word2;
-
-	if (sample < 0) sample = -sample;	// rectify the signal
-
-	word1 = envelope >> 15;	// high-order word
-	word2 = envelope & 0x00007fff;	// low-order word
-
-	// envelope = envelope*(1-coeff) + sample*coeff
-	envelope = (word1 * (32768 - env_coeff)) +
-					((word2 * (32768 - env_coeff)) >> 15) +
-						sample * env_coeff;
-
-	return envelope >> 15;
-}
-
 void main() {
 
 	comm_intr();	// initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
@@ -417,11 +228,6 @@ void main() {
 	DSK6713_DIP_init();	// initialize DIP switches from dsk6713bsl.lib
 
 	int i,j;
-
-	// initialize filter coefficient array
-	for (i = 0; i < B; i++) {
-		x[i] = 0;
-	}
 
 	// initialize data_buffer
 	for (i = 0; i < row_len; i++) {
