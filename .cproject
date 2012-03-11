@@ -37,7 +37,6 @@
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_7.3.compilerID.INCLUDE_PATH.1191244896" name="Add dir to #include search path (--include_path, -I)" superClass="com.ti.ccstudio.buildDefinitions.C6000_7.3.compilerID.INCLUDE_PATH" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${CG_TOOL_ROOT}/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/local_include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Users\staticd\Documents\COLLEGE\EEL 4935 DSP_FPGA\misc_contents\lib_and_h&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_7.3.compilerID.DISPLAY_ERROR_NUMBER.354586204" name="Emit diagnostic identifier numbers (--display_error_number, -pden)" superClass="com.ti.ccstudio.buildDefinitions.C6000_7.3.compilerID.DISPLAY_ERROR_NUMBER" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.C6000_7.3.compilerID.DIAG_WARNING.307236698" name="Treat diagnostic &lt;id&gt; as warning (--diag_warning, -pdsw)" superClass="com.ti.ccstudio.buildDefinitions.C6000_7.3.compilerID.DIAG_WARNING" valueType="stringList">

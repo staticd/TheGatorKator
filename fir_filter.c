@@ -7,6 +7,7 @@
 
 #include <four_k_lpf.h>	// lpf filter coeffs type: short
 #include <detect_envelope.h>
+#include <block_dc.h>
 
 float x[N];	// initialize storage array
 
