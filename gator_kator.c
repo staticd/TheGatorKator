@@ -12,19 +12,25 @@
 
 // set sample rate and input
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ; // set sampling rate
-Uint16 inputsource = DSK6713_AIC23_INPUT_MIC; // select input
+Uint16 inputsource = DSK6713_AIC23_INPUT_LINE; // select input
 
 /*****************************************************************************
  * Variable Declarations
  *****************************************************************************/
 int signal_status;
 int program_control;
+int row_ind = 0;
 
 /*****************************************************************************
  * Data Buffer Declarations
  *****************************************************************************/
 #pragma DATA_SECTION(input_buffer, ".EXTRAM")
 float input_buffer[row_len];
+
+/*
+ * Function Prototypes
+ */
+short playback();
 
 // interrupt service routine
 interrupt void c_int11() {
@@ -45,6 +51,12 @@ interrupt void c_int11() {
 
 			program_control = 1;
 		}
+	}
+
+	if (program_control == 1) {
+
+		out_sample = playback();
+		output_sample(out_sample);
 	}
 
 	return;
@@ -75,9 +87,39 @@ void main() {
 	// collect samples
 	while (program_control == 0);
 
+	/*********************************************
+	 * step 2: playback samples
+	 * note: this will not be part of the release!
+	 *********************************************/
+
+	// playback samples
+	while (program_control == 1);
+
 	// show that we are done here!
 	for (i = 0; i < 4; i++) {
 
 		DSK6713_LED_toggle(i);
 	}
 }
+
+short playback() {
+
+	row_ind++;
+
+	if (row_ind == row_len) program_control++;
+	return (short)input_buffer[row_ind];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
