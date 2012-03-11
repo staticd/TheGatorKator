@@ -4,6 +4,8 @@
  *  Created on: Mar 10, 2012
  *      Author: staticd
  */
+
+#include <frame_and_filter.h>
 #include <detect_envelope.h>
 #include <block_dc.h>
 #include <fir_filter.h>
@@ -31,8 +33,6 @@ int frame_and_filter(short sample, float *data) {
 
 		signal_on = 1;
 	}
-
-
 
 	return row_index;
 }

@@ -25,10 +25,13 @@ short detect_envelope(short sample)
 	 *************************************/
 	short word1,word2;
 
-	if (sample < 0) sample = -sample;	// rectify the signal
+	// rectify the signal
+	if (sample < 0) sample = -sample;
 
-	word1 = envelope >> 15;	// high-order word
-	word2 = envelope & 0x00007fff;	// low-order word
+	// high-order word
+	word1 = envelope >> 15;
+	// low-order word
+	word2 = envelope & 0x00007fff;
 
 	// envelope = envelope*(1-coeff) + sample*coeff
 	envelope = (word1 * (32768 - env_coeff)) +

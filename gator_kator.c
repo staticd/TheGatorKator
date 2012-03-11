@@ -3,6 +3,7 @@
 #include <frame_and_filter.h>
 #include <dsk6713_dip.h>
 #include <dsk6713_led.h>
+#include <stdio.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -18,7 +19,6 @@ Uint16 inputsource = DSK6713_AIC23_INPUT_MIC; // select input
  *****************************************************************************/
 int signal_status;
 int program_control;
-short sample_data;
 
 /*****************************************************************************
  * Data Buffer Declarations
@@ -29,10 +29,13 @@ float input_buffer[row_len];
 // interrupt service routine
 interrupt void c_int11() {
 
+	short sample_data;
+
 	if (program_control == 0) {
 
 		sample_data = input_left_sample();
 		signal_status = frame_and_filter(sample_data, input_buffer);
+		printf("here i am");
 
 		if (signal_status > 0) {
 
