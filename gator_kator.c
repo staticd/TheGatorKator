@@ -69,11 +69,11 @@ void main() {
 	 * step 1: collect samples
 	 *************************/
 
-	DSK6713_LED_on(0);	// turn LED 0 on to signify beginning of interrupt service routine (ISR)
+	// turn LED 0 on to signify beginning of interrupt service routine (ISR)
+	DSK6713_LED_on(0);
 
-	while (program_control == 0);	// collect samples
-
-	DSK6713_LED_off(0);
+	// collect samples
+	while (program_control == 0);
 
 	// show that we are done here!
 	for (i = 0; i < 4; i++) {
