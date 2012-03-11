@@ -19,6 +19,7 @@ C_SRCS += \
 ../c6713dskinit.c \
 ../detect_envelope.c \
 ../fir_filter.c \
+../frame_and_filter.c \
 ../gator_kator.c 
 
 OBJS += \
@@ -27,6 +28,7 @@ OBJS += \
 ./c6713dskinit.obj \
 ./detect_envelope.obj \
 ./fir_filter.obj \
+./frame_and_filter.obj \
 ./gator_kator.obj 
 
 ASM_DEPS += \
@@ -37,6 +39,7 @@ C_DEPS += \
 ./c6713dskinit.pp \
 ./detect_envelope.pp \
 ./fir_filter.pp \
+./frame_and_filter.pp \
 ./gator_kator.pp 
 
 C_DEPS__QUOTED += \
@@ -44,6 +47,7 @@ C_DEPS__QUOTED += \
 "c6713dskinit.pp" \
 "detect_envelope.pp" \
 "fir_filter.pp" \
+"frame_and_filter.pp" \
 "gator_kator.pp" 
 
 OBJS__QUOTED += \
@@ -52,6 +56,7 @@ OBJS__QUOTED += \
 "c6713dskinit.obj" \
 "detect_envelope.obj" \
 "fir_filter.obj" \
+"frame_and_filter.obj" \
 "gator_kator.obj" 
 
 ASM_DEPS__QUOTED += \
@@ -65,6 +70,7 @@ C_SRCS__QUOTED += \
 "../c6713dskinit.c" \
 "../detect_envelope.c" \
 "../fir_filter.c" \
+"../frame_and_filter.c" \
 "../gator_kator.c" 
 
 
