@@ -30,12 +30,16 @@ float input_buffer[row_len];
 interrupt void c_int11() {
 
 	short sample_data;
+	short out_sample;
 
 	if (program_control == 0) {
 
 		sample_data = input_left_sample();
+
 		signal_status = frame_and_filter(sample_data, input_buffer);
-		printf("here i am");
+
+		out_sample = sample_data;
+		output_left_sample(out_sample);
 
 		if (signal_status > 0) {
 

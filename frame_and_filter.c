@@ -19,6 +19,8 @@ int row_index = 0;
 int frame_and_filter(short sample, float *data) {
 
 	int signal;
+	int ret = 0;
+
 	signal = detect_envelope(block_dc(sample));
 
 	if (signal_on) {
@@ -34,7 +36,12 @@ int frame_and_filter(short sample, float *data) {
 		signal_on = 1;
 	}
 
-	return row_index;
+	if (row_index == row_len) {
+
+		ret = row_index;
+	}
+
+	return ret;
 }
 
 
