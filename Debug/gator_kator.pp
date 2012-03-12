@@ -24,6 +24,7 @@ gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/dsk
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/stdio.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/linkage.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/stdarg.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h
 
 ../gator_kator.c: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/C6713dskinit.h: 
@@ -49,3 +50,4 @@ C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/dsk6713_led.h:
 C:/ti/ccsv5/tools/compiler/c6000/include/stdio.h: 
 C:/ti/ccsv5/tools/compiler/c6000/include/linkage.h: 
 C:/ti/ccsv5/tools/compiler/c6000/include/stdarg.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h: 

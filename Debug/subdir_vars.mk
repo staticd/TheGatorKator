@@ -20,7 +20,8 @@ C_SRCS += \
 ../detect_envelope.c \
 ../fir_filter.c \
 ../frame_and_filter.c \
-../gator_kator.c 
+../gator_kator.c \
+../xcorr.c 
 
 OBJS += \
 ./Vectors_intr.obj \
@@ -29,7 +30,8 @@ OBJS += \
 ./detect_envelope.obj \
 ./fir_filter.obj \
 ./frame_and_filter.obj \
-./gator_kator.obj 
+./gator_kator.obj \
+./xcorr.obj 
 
 ASM_DEPS += \
 ./Vectors_intr.pp 
@@ -40,7 +42,8 @@ C_DEPS += \
 ./detect_envelope.pp \
 ./fir_filter.pp \
 ./frame_and_filter.pp \
-./gator_kator.pp 
+./gator_kator.pp \
+./xcorr.pp 
 
 C_DEPS__QUOTED += \
 "block_dc.pp" \
@@ -48,7 +51,8 @@ C_DEPS__QUOTED += \
 "detect_envelope.pp" \
 "fir_filter.pp" \
 "frame_and_filter.pp" \
-"gator_kator.pp" 
+"gator_kator.pp" \
+"xcorr.pp" 
 
 OBJS__QUOTED += \
 "Vectors_intr.obj" \
@@ -57,7 +61,8 @@ OBJS__QUOTED += \
 "detect_envelope.obj" \
 "fir_filter.obj" \
 "frame_and_filter.obj" \
-"gator_kator.obj" 
+"gator_kator.obj" \
+"xcorr.obj" 
 
 ASM_DEPS__QUOTED += \
 "Vectors_intr.pp" 
@@ -71,6 +76,7 @@ C_SRCS__QUOTED += \
 "../detect_envelope.c" \
 "../fir_filter.c" \
 "../frame_and_filter.c" \
-"../gator_kator.c" 
+"../gator_kator.c" \
+"../xcorr.c" 
 
 

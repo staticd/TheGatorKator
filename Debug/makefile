@@ -8,6 +8,7 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/c6000
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
+"./xcorr.obj" \
 "./gator_kator.obj" \
 "./frame_and_filter.obj" \
 "./fir_filter.obj" \
@@ -132,8 +133,8 @@ TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "TheGatorKator.out"
-	-$(RM) "block_dc.pp" "c6713dskinit.pp" "detect_envelope.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" 
-	-$(RM) "Vectors_intr.obj" "block_dc.obj" "c6713dskinit.obj" "detect_envelope.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" 
+	-$(RM) "block_dc.pp" "c6713dskinit.pp" "detect_envelope.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" "xcorr.pp" 
+	-$(RM) "Vectors_intr.obj" "block_dc.obj" "c6713dskinit.obj" "detect_envelope.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "xcorr.obj" 
 	-$(RM) "Vectors_intr.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '

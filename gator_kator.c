@@ -4,6 +4,7 @@
 #include <dsk6713_dip.h>
 #include <dsk6713_led.h>
 #include <stdio.h>
+#include <xcorr.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -17,8 +18,8 @@ Uint16 inputsource = DSK6713_AIC23_INPUT_LINE; // select input
 /*****************************************************************************
  * Variable Declarations
  *****************************************************************************/
-int signal_status;
-int program_control;
+volatile int signal_status;
+volatile int program_control;
 int row_ind = 0;
 
 /*****************************************************************************
@@ -27,9 +28,9 @@ int row_ind = 0;
 #pragma DATA_SECTION(input_buffer, ".EXTRAM")
 float input_buffer[row_len];
 
-/*
+/*****************************************************************************
  * Function Prototypes
- */
+ *****************************************************************************/
 short playback();
 
 // interrupt service routine
@@ -44,7 +45,7 @@ interrupt void c_int11() {
 
 		signal_status = frame_and_filter(sample_data, input_buffer);
 
-		out_sample = sample_data;
+		out_sample = 0;
 		output_left_sample(out_sample);
 
 		if (signal_status > 0) {
@@ -69,6 +70,7 @@ void main() {
 	DSK6713_DIP_init();	// initialize DIP switches from dsk6713bsl.lib
 
 	int i;
+	double match;
 	program_control = 0;
 
 	// initialize input buffer
@@ -92,8 +94,21 @@ void main() {
 	 * note: this will not be part of the release!
 	 *********************************************/
 
+	// turn LED 1 on to signify beginning of sample playback
+	DSK6713_LED_on(1);
+
 	// playback samples
 	while (program_control == 1);
+
+	/********************************************
+	 * step 3: find cross-correlation coefficient
+	 ********************************************/
+
+	// turn led 2 on to signify beginning of cross-correlation for match
+	DSK6713_LED_on(2);
+
+	match = xcorr(input_buffer);
+	printf("match is: %f", match);
 
 	// show that we are done here!
 	for (i = 0; i < 4; i++) {
