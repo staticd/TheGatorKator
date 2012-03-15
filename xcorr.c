@@ -14,8 +14,8 @@ double mx, my, sx, sy, sxy, denom, r;
 
 double xcorr(float *x) {
 
-	int delay = n;
-	int maxdelay = n;
+	int delay = 0;
+	int maxdelay = n/2;
 	/* Calculate the mean of the two series x[], y[] */
 	mx = 0;
 	my = 0;
