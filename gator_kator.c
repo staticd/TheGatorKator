@@ -5,6 +5,7 @@
 #include <dsk6713_led.h>
 #include <stdio.h>
 #include <xcorr.h>
+#include <emif_lcd.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -42,11 +43,12 @@ interrupt void c_int11() {
 	if (program_control == 0) {
 
 		sample_data = input_left_sample();
+//		printf("sample: %d\n", sample_data);
 
 		signal_status = frame_and_filter(sample_data, input_buffer);
 
 		out_sample = 0;
-		output_left_sample(out_sample);
+		output_sample(out_sample);
 
 		if (signal_status > 0) {
 
@@ -68,6 +70,7 @@ void main() {
 	comm_intr();	// initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
 	DSK6713_LED_init();	// initialize LEDs from dsk6713bsl.lib
 	DSK6713_DIP_init();	// initialize DIP switches from dsk6713bsl.lib
+	init_LCD(); // init LCD
 
 	int i;
 	double match;
@@ -115,6 +118,9 @@ void main() {
 
 		DSK6713_LED_toggle(i);
 	}
+
+	// put a signal on data pin #1
+	lcd_test();
 }
 
 short playback() {

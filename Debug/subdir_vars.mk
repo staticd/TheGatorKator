@@ -18,6 +18,7 @@ C_SRCS += \
 ../block_dc.c \
 ../c6713dskinit.c \
 ../detect_envelope.c \
+../emif_lcd.c \
 ../fir_filter.c \
 ../frame_and_filter.c \
 ../gator_kator.c \
@@ -28,6 +29,7 @@ OBJS += \
 ./block_dc.obj \
 ./c6713dskinit.obj \
 ./detect_envelope.obj \
+./emif_lcd.obj \
 ./fir_filter.obj \
 ./frame_and_filter.obj \
 ./gator_kator.obj \
@@ -40,6 +42,7 @@ C_DEPS += \
 ./block_dc.pp \
 ./c6713dskinit.pp \
 ./detect_envelope.pp \
+./emif_lcd.pp \
 ./fir_filter.pp \
 ./frame_and_filter.pp \
 ./gator_kator.pp \
@@ -49,6 +52,7 @@ C_DEPS__QUOTED += \
 "block_dc.pp" \
 "c6713dskinit.pp" \
 "detect_envelope.pp" \
+"emif_lcd.pp" \
 "fir_filter.pp" \
 "frame_and_filter.pp" \
 "gator_kator.pp" \
@@ -59,6 +63,7 @@ OBJS__QUOTED += \
 "block_dc.obj" \
 "c6713dskinit.obj" \
 "detect_envelope.obj" \
+"emif_lcd.obj" \
 "fir_filter.obj" \
 "frame_and_filter.obj" \
 "gator_kator.obj" \
@@ -74,6 +79,7 @@ C_SRCS__QUOTED += \
 "../block_dc.c" \
 "../c6713dskinit.c" \
 "../detect_envelope.c" \
+"../emif_lcd.c" \
 "../fir_filter.c" \
 "../frame_and_filter.c" \
 "../gator_kator.c" \
