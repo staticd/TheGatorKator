@@ -11,9 +11,6 @@ LIB_SRCS += \
 ../dsk6713bsl.lib \
 ../rts6700.lib 
 
-ASM_SRCS += \
-../Vectors_intr.asm 
-
 C_SRCS += \
 ../block_dc.c \
 ../c6713dskinit.c \
@@ -25,7 +22,6 @@ C_SRCS += \
 ../xcorr.c 
 
 OBJS += \
-./Vectors_intr.obj \
 ./block_dc.obj \
 ./c6713dskinit.obj \
 ./detect_envelope.obj \
@@ -34,9 +30,6 @@ OBJS += \
 ./frame_and_filter.obj \
 ./gator_kator.obj \
 ./xcorr.obj 
-
-ASM_DEPS += \
-./Vectors_intr.pp 
 
 C_DEPS += \
 ./block_dc.pp \
@@ -59,7 +52,6 @@ C_DEPS__QUOTED += \
 "xcorr.pp" 
 
 OBJS__QUOTED += \
-"Vectors_intr.obj" \
 "block_dc.obj" \
 "c6713dskinit.obj" \
 "detect_envelope.obj" \
@@ -68,12 +60,6 @@ OBJS__QUOTED += \
 "frame_and_filter.obj" \
 "gator_kator.obj" \
 "xcorr.obj" 
-
-ASM_DEPS__QUOTED += \
-"Vectors_intr.pp" 
-
-ASM_SRCS__QUOTED += \
-"../Vectors_intr.asm" 
 
 C_SRCS__QUOTED += \
 "../block_dc.c" \

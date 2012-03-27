@@ -24,112 +24,87 @@ Uint16 inputsource = DSK6713_AIC23_INPUT_LINE; // select input source
 /*****************************************************************************
  * Variable Declarations
  *****************************************************************************/
+volatile int left_signal_status;
+volatile int right_signal_status;
 volatile int signal_status;
-volatile int program_control;
-int row_ind = 0;
+volatile int row_ind = 0;
 
 /*****************************************************************************
  * Data Buffer Declarations
  *****************************************************************************/
-#pragma DATA_SECTION(input_buffer, ".EXTRAM")
-float input_buffer[row_len];
+#pragma DATA_SECTION(input_left_buffer, ".EXTRAM")
+float input_left_buffer[row_len];
+
+#pragma DATA_SECTION(input_right_buffer, ".EXTRAM")
+float input_right_buffer[row_len];
 
 /*****************************************************************************
  * Function Prototypes
  *****************************************************************************/
 short playback();
-
-// interrupt service routine
-interrupt void c_int11() {
-
-	short sample_data;
-	short out_sample;
-
-	if (program_control == 0) {
-
-		sample_data = input_left_sample();
-		//printf("sample: %d\n", sample_data);
-		signal_status = frame_and_filter(sample_data, input_buffer);
-		out_sample = sample_data;
-		if (signal_status > 0) {
-
-			program_control = 1;
-		}
-		output_sample(out_sample);
-	}
-
-	if (program_control == 1) {
-
-		out_sample = playback();
-		output_sample(out_sample);
-	}
-
-	return;
-}
+void init_buffer();
 
 void main() {
 
-	comm_intr();	// initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
+	comm_poll();	// initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
 	DSK6713_LED_init();	// initialize LEDs from dsk6713bsl.lib
 	DSK6713_DIP_init();	// initialize DIP switches from dsk6713bsl.lib
 	init_LCD(); // init LCD
 	delay();
 	send_LCD_characters();
 
-	int i;
-//	double match;
-	program_control = 0;
+	// declare local variables
+	short left_sample_data;
+	short right_sample_data;
 
-	// initialize input buffer
-	for(i = 0; i < row_len; i++) {
+	init_buffer();
 
-		input_buffer[i] = 0.0;
-	}
+	// begin infinite process
+	while(1) {
 
-	/*************************
-	 * step 1: collect samples
-	 *************************/
+		if (DSK6713_DIP_get(0) == 0) {
 
-	// turn LED 0 on to signify beginning of interrupt service routine (ISR)
-	DSK6713_LED_on(0);
+			// collect samples
+			left_sample_data = input_left_sample();
+			right_sample_data = input_right_sample();
 
-	// collect samples
-	while (program_control == 0);
+			// pass samples to fram_and_filter until buffer is full
+			left_signal_status = frame_and_filter(left_sample_data, input_left_buffer);
+			right_signal_status = frame_and_filter(right_sample_data, input_right_buffer);
+			signal_status = left_signal_status + right_signal_status;
 
-	/*********************************************
-	 * step 2: playback samples
-	 * note: this will not be part of the release!
-	 *********************************************/
+			if (signal_status == (2 * row_len)) {
 
-	// turn LED 1 on to signify beginning of sample playback
-	DSK6713_LED_on(1);
+				DSK6713_LED_on(0);
+				playback();
+			}
+		}
 
-	// playback samples
-	while (program_control == 1);
+		if (DSK6713_DIP_get(3)) {
 
-	/********************************************
-	 * step 3: find cross-correlation coefficient
-	 ********************************************/
-
-	// turn led 2 on to signify beginning of cross-correlation for match
-	DSK6713_LED_on(2);
-
-//	match = xcorr(input_buffer);
-//	printf("match is: %f", match);
-
-	// show that we are done here!
-	for (i = 0; i < 4; i++) {
-
-		DSK6713_LED_toggle(i);
+			init_buffer();
+			row_ind = 0;
+		}
 	}
 }
 
 short playback() {
 
 	row_ind++;
+	if (row_ind > row_len) return 0;
+	return (short)input_left_buffer[row_ind];
+}
 
-	if (row_ind == row_len) program_control++;
-	return (short)input_buffer[row_ind];
+void init_buffer() {
+
+	int i;
+
+	// initialize input buffer
+	for(i = 0; i < row_len; i++) {
+
+		input_left_buffer[i] = 0.0;
+		input_right_buffer[i] = 0.0;
+	}
 }
 
 

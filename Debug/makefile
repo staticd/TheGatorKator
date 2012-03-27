@@ -16,7 +16,6 @@ $(GEN_CMDS__FLAG) \
 "./detect_envelope.obj" \
 "./c6713dskinit.obj" \
 "./block_dc.obj" \
-"./Vectors_intr.obj" \
 -l"C:\Users\staticd\workspace_v5_1\TheGatorKator\csl6713.lib" \
 -l"C:\Users\staticd\workspace_v5_1\TheGatorKator\dsk6713bsl.lib" \
 "../C6713dsk.cmd" \
@@ -135,8 +134,7 @@ TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 clean:
 	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "TheGatorKator.out"
 	-$(RM) "block_dc.pp" "c6713dskinit.pp" "detect_envelope.pp" "emif_lcd.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" "xcorr.pp" 
-	-$(RM) "Vectors_intr.obj" "block_dc.obj" "c6713dskinit.obj" "detect_envelope.obj" "emif_lcd.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "xcorr.obj" 
-	-$(RM) "Vectors_intr.pp" 
+	-$(RM) "block_dc.obj" "c6713dskinit.obj" "detect_envelope.obj" "emif_lcd.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "xcorr.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
