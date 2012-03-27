@@ -15,7 +15,7 @@
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
 // this value should correspond with number of samples in correlation vector
-#define row_len 2000
+#define row_len 20000
 
 // set sample rate and input source
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ; // set sampling rate
@@ -43,12 +43,15 @@ float input_right_buffer[row_len];
  *****************************************************************************/
 short playback();
 void init_buffer();
+void set_leds();
+void reset_leds();
+void toggle(int, int);
 
 void main() {
 
-	comm_poll();	// initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
-	DSK6713_LED_init();	// initialize LEDs from dsk6713bsl.lib
-	DSK6713_DIP_init();	// initialize DIP switches from dsk6713bsl.lib
+	comm_poll(); // initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
+	DSK6713_LED_init(); // initialize LEDs from dsk6713bsl.lib
+	DSK6713_DIP_init(); // initialize DIP switches from dsk6713bsl.lib
 	init_LCD(); // init LCD
 	delay();
 	send_LCD_characters();
@@ -62,28 +65,37 @@ void main() {
 	// begin infinite process
 	while(1) {
 
+		// collect samples
 		if (DSK6713_DIP_get(0) == 0) {
 
 			// collect samples
 			left_sample_data = input_left_sample();
 			right_sample_data = input_right_sample();
-
 			// pass samples to fram_and_filter until buffer is full
 			left_signal_status = frame_and_filter(left_sample_data, input_left_buffer);
 			right_signal_status = frame_and_filter(right_sample_data, input_right_buffer);
 			signal_status = left_signal_status + right_signal_status;
 
-			if (signal_status == (2 * row_len)) {
+			// show collecting samples is complete
+			if (signal_status >= (2 * row_len)) {
 
 				DSK6713_LED_on(0);
 				playback();
 			}
 		}
 
-		if (DSK6713_DIP_get(3)) {
+		// reset
+		if (DSK6713_DIP_get(3) == 0) {
 
+			reset_leds();
+			toggle(3, 3);
 			init_buffer();
 			row_ind = 0;
+			signal_status = 0;
+			signal_on = 0; // frame_and_filter global
+			row_index = 0; // frame_and_filter global
+			set_leds();
+			if (DSK6713_DIP_get(3)) reset_leds();
 		}
 	}
 }
@@ -107,4 +119,31 @@ void init_buffer() {
 	}
 }
 
+void reset_leds() {
 
+	int i;
+	for (i = 0; i < 4; i++) {
+
+		DSK6713_LED_off(i);
+	}
+}
+
+void set_leds() {
+
+	int i;
+	for (i = 0; i < 4; i++) {
+
+		DSK6713_LED_on(i);
+	}
+}
+
+void toggle(int i, int dip) {
+
+	int q = 0;
+	int junk = 2;
+	while (DSK6713_DIP_get(dip) == 0) {
+
+		DSK6713_LED_toggle(i);
+		for (q = 0; q < 800000; q++) junk = junk*junk;
+	}
+}

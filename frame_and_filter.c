@@ -13,7 +13,7 @@
 //test
 #include <stdio.h>
 
-#define row_len 2000
+#define row_len 20000
 #define threshold 400
 
 int signal_on = 0;
