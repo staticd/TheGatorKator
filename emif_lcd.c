@@ -23,8 +23,13 @@ int input, output1;
 // holds FFT array after downsizing
 float bandage[16];
 
-int toprow[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-int botrow[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//int toprow[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+//int botrow[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+// toprow ==> "Signal Detected"
+int toprow[16] = {83, 105, 103, 110, 97, 108, 32, 68, 101, 116, 101, 99, 116, 101, 100, 33};
+// botrow ==> "Distance:XX.X ft"
+int botrow[16] = {68, 105, 115, 116, 97, 110, 99, 101, 58, 88, 88, 46, 88, 32, 102, 116};
 
 // start on top row
 short rowselect = 1;
@@ -150,7 +155,5 @@ void delay() {
 
 void lcd_test () {
 
-	*output = 0x00000001;
+	*output = 0xFFFFFFFF;
 }
-
-

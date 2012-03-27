@@ -1,20 +1,25 @@
+// dsk includes
 #include <C6713dskinit.h>
-#include <fir_filter.h>
-#include <frame_and_filter.h>
 #include <dsk6713_dip.h>
 #include <dsk6713_led.h>
+
+// library call includes
 #include <stdio.h>
+
+// custom includes
+#include <frame_and_filter.h>
 #include <xcorr.h>
 #include <emif_lcd.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
-// this value should correspond with number of samples in correlation vector
-#define row_len 23000
 
-// set sample rate and input
+// this value should correspond with number of samples in correlation vector
+#define row_len 2000
+
+// set sample rate and input source
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ; // set sampling rate
-Uint16 inputsource = DSK6713_AIC23_INPUT_LINE; // select input
+Uint16 inputsource = DSK6713_AIC23_INPUT_LINE; // select input source
 
 /*****************************************************************************
  * Variable Declarations
@@ -43,17 +48,14 @@ interrupt void c_int11() {
 	if (program_control == 0) {
 
 		sample_data = input_left_sample();
-//		printf("sample: %d\n", sample_data);
-
+		//printf("sample: %d\n", sample_data);
 		signal_status = frame_and_filter(sample_data, input_buffer);
-
-		out_sample = 0;
-		output_sample(out_sample);
-
+		out_sample = sample_data;
 		if (signal_status > 0) {
 
 			program_control = 1;
 		}
+		output_sample(out_sample);
 	}
 
 	if (program_control == 1) {
@@ -71,9 +73,11 @@ void main() {
 	DSK6713_LED_init();	// initialize LEDs from dsk6713bsl.lib
 	DSK6713_DIP_init();	// initialize DIP switches from dsk6713bsl.lib
 	init_LCD(); // init LCD
+	delay();
+	send_LCD_characters();
 
 	int i;
-	double match;
+//	double match;
 	program_control = 0;
 
 	// initialize input buffer
@@ -110,17 +114,14 @@ void main() {
 	// turn led 2 on to signify beginning of cross-correlation for match
 	DSK6713_LED_on(2);
 
-	match = xcorr(input_buffer);
-	printf("match is: %f", match);
+//	match = xcorr(input_buffer);
+//	printf("match is: %f", match);
 
 	// show that we are done here!
 	for (i = 0; i < 4; i++) {
 
 		DSK6713_LED_toggle(i);
 	}
-
-	// put a signal on data pin #1
-	lcd_test();
 }
 
 short playback() {
@@ -130,17 +131,5 @@ short playback() {
 	if (row_ind == row_len) program_control++;
 	return (short)input_buffer[row_ind];
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

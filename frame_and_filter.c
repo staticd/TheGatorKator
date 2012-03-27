@@ -10,7 +10,10 @@
 #include <block_dc.h>
 #include <fir_filter.h>
 
-#define row_len 23000
+//test
+#include <stdio.h>
+
+#define row_len 2000
 #define threshold 400
 
 int signal_on = 0;
@@ -28,6 +31,7 @@ int frame_and_filter(short sample, float *data) {
 		if (row_index < row_len) {
 
 			data[row_index] = filter_signal(sample);
+//			printf("sample: %f\n", data[row_index]);
 			row_index++;
 		}
 	}
