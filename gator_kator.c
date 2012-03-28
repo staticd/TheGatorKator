@@ -53,7 +53,6 @@ void main() {
 	DSK6713_LED_init(); // initialize LEDs from dsk6713bsl.lib
 	DSK6713_DIP_init(); // initialize DIP switches from dsk6713bsl.lib
 	init_LCD(); // init LCD
-	delay();
 	send_LCD_characters();
 
 	// declare local variables
@@ -67,6 +66,14 @@ void main() {
 
 		// collect samples
 		if (DSK6713_DIP_get(0) == 0) {
+
+			/*
+			 * TODO: Add conditions for controlling the program sequence.
+			 * You need to account for the polling behavior.  You have the samples now though.
+			 * Focus on functionality and get a good correlation.  You need to stop collecting samples
+			 * after the buffers are full so you still might need the program control variables + the
+			 * dip switch values for control.
+			 */
 
 			// collect samples
 			left_sample_data = input_left_sample();
@@ -110,8 +117,7 @@ short playback() {
 void init_buffer() {
 
 	int i;
-
-	// initialize input buffer
+	// initialize input buffers
 	for(i = 0; i < row_len; i++) {
 
 		input_left_buffer[i] = 0.0;

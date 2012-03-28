@@ -1,7 +1,7 @@
 ******************************************************************************
                TMS320C6x Linker PC v7.3.1                      
 ******************************************************************************
->> Linked Tue Mar 27 02:47:47 2012
+>> Linked Tue Mar 27 22:44:59 2012
 
 OUTPUT FILE NAME:   <TheGatorKator.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00003a40
@@ -283,7 +283,7 @@ ffffffff   ___pinit__
 80027a08   _hAIC23_handle
 80027a10   _i
 00001108   _init_LCD
-00000ca8   _init_buffer
+00000c98   _init_buffer
 8002785c   _input
 80000000   _input_left_buffer
 00000848   _input_left_sample
@@ -305,23 +305,23 @@ ffffffff   ___pinit__
 00000584   _output_left_sample
 00000664   _output_right_sample
 0000046c   _output_sample
-00000c30   _playback
+00000c20   _playback
 80027a48   _r
-00000d18   _reset_leds
+00000d08   _reset_leds
 80027adc   _right_signal_status
 80027ae4   _row_ind
 80027af4   _row_index
 80027924   _rowselect
 00001018   _send_LCD_characters
 00000ec0   _set_LCD_characters
-00000d70   _set_leds
+00000d60   _set_leds
 80027af0   _signal_on
 80027ae0   _signal_status
 00001dc0   _sqrt
 80027a28   _sx
 80027a38   _sxy
 80027a30   _sy
-00000dc8   _toggle
+00000db8   _toggle
 800278a4   _toprow
 80027430   _x
 ffffffff   binit
@@ -352,11 +352,11 @@ address    name
 00000848   _input_left_sample
 00000910   _input_right_sample
 000009e0   _main
-00000c30   _playback
-00000ca8   _init_buffer
-00000d18   _reset_leds
-00000d70   _set_leds
-00000dc8   _toggle
+00000c20   _playback
+00000c98   _init_buffer
+00000d08   _reset_leds
+00000d60   _set_leds
+00000db8   _toggle
 00000ec0   _set_LCD_characters
 00001018   _send_LCD_characters
 00001108   _init_LCD
