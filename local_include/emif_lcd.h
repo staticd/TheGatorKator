@@ -13,7 +13,7 @@ void send_LCD_characters();
 void init_LCD();
 void LCD_PUT_CMD(int data);
 void LCD_PUT_CHAR(int data);
-void delay();
+void delay_lcd();
 void lcd_test();
 
 #endif /* EMIF_LCD_H_ */

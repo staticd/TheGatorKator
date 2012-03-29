@@ -31,6 +31,13 @@ emif_lcd.obj: ../emif_lcd.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Finished building: $<'
 	@echo ' '
 
+find_max.obj: ../find_max.c $(GEN_OPTS) $(GEN_SRCS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C6000 Compiler'
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --include_path="C:/ti/ccsv5/tools/compiler/c6000/include" --include_path="C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include" --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi --preproc_with_compile --preproc_dependency="find_max.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 fir_filter.obj: ../fir_filter.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C6000 Compiler'

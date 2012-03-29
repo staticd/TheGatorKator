@@ -10,12 +10,19 @@
 #include <frame_and_filter.h>
 #include <xcorr.h>
 #include <emif_lcd.h>
+#include <find_max.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
 // this value should correspond with number of samples in correlation vector
 #define row_len 20000
+
+/*
+ * we only need a few samples to calculate the lag between mics
+ * so we should have a value that is 2*dist_len-1
+ */
+#define dist_len 1024
 
 // set sample rate and input source
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ; // set sampling rate
@@ -28,6 +35,7 @@ volatile int left_signal_status;
 volatile int right_signal_status;
 volatile int signal_status;
 volatile int row_ind = 0;
+volatile short program_control = 0;
 
 /*****************************************************************************
  * Data Buffer Declarations
@@ -37,6 +45,9 @@ float input_left_buffer[row_len];
 
 #pragma DATA_SECTION(input_right_buffer, ".EXTRAM")
 float input_right_buffer[row_len];
+
+#pragma DATA_SECTION(distance_corr_buffer, ".EXTRAM")
+float distance_corr_buffer[2*dist_len-1];
 
 /*****************************************************************************
  * Function Prototypes
@@ -58,6 +69,12 @@ void main() {
 	// declare local variables
 	short left_sample_data;
 	short right_sample_data;
+	float dist_max_buffer[2]; // 0-max, 1-lag
+	float *dmb;
+	float match_max_buffer[2]; // 0-max, 1-lag
+	float *mmb;
+
+//	double match = 0.0;
 
 	init_buffer();
 
@@ -65,7 +82,7 @@ void main() {
 	while(1) {
 
 		// collect samples
-		if (DSK6713_DIP_get(0) == 0) {
+		if ((DSK6713_DIP_get(0) == 0) && program_control == 0) {
 
 			/*
 			 * TODO: Add conditions for controlling the program sequence.
@@ -78,9 +95,11 @@ void main() {
 			// collect samples
 			left_sample_data = input_left_sample();
 			right_sample_data = input_right_sample();
-			// pass samples to fram_and_filter until buffer is full
+
+			// pass samples to frame_and_filter until buffer is full
 			left_signal_status = frame_and_filter(left_sample_data, input_left_buffer);
 			right_signal_status = frame_and_filter(right_sample_data, input_right_buffer);
+
 			signal_status = left_signal_status + right_signal_status;
 
 			// show collecting samples is complete
@@ -88,14 +107,27 @@ void main() {
 
 				DSK6713_LED_on(0);
 				playback();
+				program_control = 1;
 			}
+		}
+
+		// cross correlate left and right channels to get tau
+		if ((DSK6713_DIP_get(1) == 0) && program_control == 1) {
+
+			xcorr(input_left_buffer, input_right_buffer, dist_len, distance_corr_buffer);
+			dmb = find_max(distance_corr_buffer, dist_len, dist_max_buffer);
+			printf("max corr: %f\n", dmb[0]);
+			printf("lag: %f\n", dmb[1]);
+			program_control = 2;
+			DSK6713_LED_on(1);
 		}
 
 		// reset
 		if (DSK6713_DIP_get(3) == 0) {
 
+			program_control = -1;
 			reset_leds();
-			toggle(3, 3);
+			//toggle(3, 3);
 			init_buffer();
 			row_ind = 0;
 			signal_status = 0;
@@ -103,6 +135,7 @@ void main() {
 			row_index = 0; // frame_and_filter global
 			set_leds();
 			if (DSK6713_DIP_get(3)) reset_leds();
+			program_control = 0;
 		}
 	}
 }

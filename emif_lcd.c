@@ -121,15 +121,15 @@ void LCD_PUT_CMD(int data)
 
 	// RS=0, RW=0
 	*ioport = (data & 0x000000FF);
-	delay();
+	delay_lcd();
 
 	// bring enable line high
 	*ioport = (data | 0x20000000);
-	delay();
+	delay_lcd();
 
 	// bring enable line low
 	*ioport = (data & 0x000000FF);
-	delay();
+	delay_lcd();
 }
 
 void LCD_PUT_CHAR(int data)
@@ -142,11 +142,11 @@ void LCD_PUT_CHAR(int data)
 
 	// enable Low
 	*ioport = ((data & 0x000000FF)| 0x80000000);
-	delay();
+	delay_lcd();
 }
 
 // create 1 ms delay
-void delay() {
+void delay_lcd() {
 
 	int q = 0;
 	int junk = 2;

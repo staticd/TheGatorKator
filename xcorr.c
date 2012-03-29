@@ -6,34 +6,33 @@
  */
 
 #include <xcorr.h>
-#include <signal_of_interest.h>
 #include <math.h>
 
 int i, j;
-double mx, my, sx, sy, sxy, denom, r;
+int delay = 0;
+double mx, my, sx, sy, sxy, denom;
 
-double xcorr(float *x) {
+void xcorr(float *x, float *y, int length, float *r) {
 
-	int delay = 0;
-	int maxdelay = n/2;
+	int maxdelay = length/2;
 	/* Calculate the mean of the two series x[], y[] */
 	mx = 0;
 	my = 0;
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < length; i++) {
 
 		mx += x[i];
 
 		my += y[i];
 	}
 
-	mx /= n;
-	my /= n;
+	mx /= length;
+	my /= length;
 
 	/* Calculate the denominator */
 	sx = 0;
 	sy = 0;
 
-	for (i = 0; i < n; i++) {
+	for (i = 0; i < length; i++) {
 
 		sx += (x[i] - mx) * (x[i] - mx);
 		sy += (y[i] - my) * (y[i] - my);
@@ -46,22 +45,17 @@ double xcorr(float *x) {
 
 		sxy = 0;
 
-		for (i=0 ; i < n; i++) {
+		for (i=0 ; i < length; i++) {
 
 			j = i + delay;
 
-			while (j < 0) j += n;
-
-			j %= n;
-
-			sxy += (x[i] - mx) * (y[j] - my);
+			if (j < 0 || j >= length)
+				continue;
+			else
+				sxy += (x[i] - mx) * (y[j] - my);
 
 		}
 
-		/* r is the correlation coefficient at "delay" */
-		r = sxy / denom;
+		r[delay + maxdelay] = sxy / denom;
 	}
-
-	return r;
 }
-

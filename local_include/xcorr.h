@@ -8,6 +8,7 @@
 #ifndef XCORR_H_
 #define XCORR_H_
 
-double xcorr(float x[]);
+extern int delay;
+void xcorr(float x[], float y[], int, float r[]);
 
 #endif /* XCORR_H_ */
