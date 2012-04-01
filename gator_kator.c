@@ -12,6 +12,7 @@
 #include <emif_lcd.h>
 #include <find_max.h>
 #include <find_distance.h>
+#include <soi.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -50,6 +51,9 @@ float input_right_buffer[row_len];
 #pragma DATA_SECTION(distance_corr_buffer, ".EXTRAM")
 float distance_corr_buffer[2*dist_len-1];
 
+#pragma DATA_SECTION(match_corr_buffer, ".EXTRAM")
+float match_corr_buffer[2*dist_len-1];
+
 /*****************************************************************************
  * Function Prototypes
  *****************************************************************************/
@@ -75,7 +79,7 @@ void main() {
 	float match_max_buffer[2]; // 0-max, 1-lag
 	float *mmb;
 
-//	double match = 0.0;
+	//	double match = 0.0;
 
 	init_buffer();
 
@@ -124,9 +128,22 @@ void main() {
 			DSK6713_LED_on(1);
 		}
 
+		// cross correlate left channel with soi.h to get match
+		if ((DSK6713_DIP_get(2) == 0) && program_control == 2) {
+
+			xcorr(input_left_buffer, soi, dist_len, match_corr_buffer);
+			mmb = find_max(match_corr_buffer, 2*dist_len-1, match_max_buffer);
+			printf("match max corr: %f\n", mmb[0]);
+			printf("match lag: %f\n", mmb[1]);
+			program_control = 3;
+			DSK6713_LED_on(2);
+
+		}
+
 		// reset
 		if (DSK6713_DIP_get(3) == 0) {
 
+			DSK6713_LED_on(3);
 			program_control = -1;
 			reset_leds();
 			//toggle(3, 3);
@@ -135,9 +152,8 @@ void main() {
 			signal_status = 0;
 			signal_on = 0; // frame_and_filter global
 			row_index = 0; // frame_and_filter global
-			set_leds();
-			if (DSK6713_DIP_get(3)) reset_leds();
 			program_control = 0;
+			DSK6713_LED_off(3);
 		}
 	}
 }
@@ -175,6 +191,7 @@ void set_leds() {
 	for (i = 0; i < 4; i++) {
 
 		DSK6713_LED_on(i);
+
 	}
 }
 

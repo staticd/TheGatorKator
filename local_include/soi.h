@@ -3,6 +3,9 @@
  *
  *  Created on: Mar 28, 2012
  *      Author: staticd
+ * This is the 20k sample of the gator sound from the board and into this
+ * header file.  We will do straight up correlations against this file in
+ * short increments.
  */
 
 #ifndef SOI_H_
@@ -10,7 +13,7 @@
 
 #define SAMPS 20000
 
-const real32_T soi[20000] = {
+float soi[20000] = {
 		0.000000,	124.794000,	0.000000,	204.501200,	0.000000,	299.255700,	0.000000,	335.027600,
 		0.000000,	362.479700,	0.000000,	391.354900,	0.000000,	413.740800,	0.000000,	409.724700,
 		0.000000,	364.175600,	0.000000,	408.676300,	0.000000,	370.857600,	0.000000,	306.361800,
