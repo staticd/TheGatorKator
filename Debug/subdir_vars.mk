@@ -16,6 +16,7 @@ C_SRCS += \
 ../c6713dskinit.c \
 ../detect_envelope.c \
 ../emif_lcd.c \
+../find_distance.c \
 ../find_max.c \
 ../fir_filter.c \
 ../frame_and_filter.c \
@@ -27,6 +28,7 @@ OBJS += \
 ./c6713dskinit.obj \
 ./detect_envelope.obj \
 ./emif_lcd.obj \
+./find_distance.obj \
 ./find_max.obj \
 ./fir_filter.obj \
 ./frame_and_filter.obj \
@@ -38,6 +40,7 @@ C_DEPS += \
 ./c6713dskinit.pp \
 ./detect_envelope.pp \
 ./emif_lcd.pp \
+./find_distance.pp \
 ./find_max.pp \
 ./fir_filter.pp \
 ./frame_and_filter.pp \
@@ -49,6 +52,7 @@ C_DEPS__QUOTED += \
 "c6713dskinit.pp" \
 "detect_envelope.pp" \
 "emif_lcd.pp" \
+"find_distance.pp" \
 "find_max.pp" \
 "fir_filter.pp" \
 "frame_and_filter.pp" \
@@ -60,6 +64,7 @@ OBJS__QUOTED += \
 "c6713dskinit.obj" \
 "detect_envelope.obj" \
 "emif_lcd.obj" \
+"find_distance.obj" \
 "find_max.obj" \
 "fir_filter.obj" \
 "frame_and_filter.obj" \
@@ -71,6 +76,7 @@ C_SRCS__QUOTED += \
 "../c6713dskinit.c" \
 "../detect_envelope.c" \
 "../emif_lcd.c" \
+"../find_distance.c" \
 "../find_max.c" \
 "../fir_filter.c" \
 "../frame_and_filter.c" \

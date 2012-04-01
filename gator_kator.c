@@ -11,6 +11,7 @@
 #include <xcorr.h>
 #include <emif_lcd.h>
 #include <find_max.h>
+#include <find_distance.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -115,9 +116,10 @@ void main() {
 		if ((DSK6713_DIP_get(1) == 0) && program_control == 1) {
 
 			xcorr(input_left_buffer, input_right_buffer, dist_len, distance_corr_buffer);
-			dmb = find_max(distance_corr_buffer, dist_len, dist_max_buffer);
+			dmb = find_max(distance_corr_buffer, 2*dist_len-1, dist_max_buffer);
 			printf("max corr: %f\n", dmb[0]);
 			printf("lag: %f\n", dmb[1]);
+			printf("distance: %f\n", find_distance(dmb[1]));
 			program_control = 2;
 			DSK6713_LED_on(1);
 		}

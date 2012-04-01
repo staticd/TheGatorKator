@@ -13,6 +13,7 @@ $(GEN_CMDS__FLAG) \
 "./frame_and_filter.obj" \
 "./fir_filter.obj" \
 "./find_max.obj" \
+"./find_distance.obj" \
 "./emif_lcd.obj" \
 "./detect_envelope.obj" \
 "./c6713dskinit.obj" \
@@ -134,8 +135,8 @@ TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "TheGatorKator.out"
-	-$(RM) "block_dc.pp" "c6713dskinit.pp" "detect_envelope.pp" "emif_lcd.pp" "find_max.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" "xcorr.pp" 
-	-$(RM) "block_dc.obj" "c6713dskinit.obj" "detect_envelope.obj" "emif_lcd.obj" "find_max.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "xcorr.obj" 
+	-$(RM) "block_dc.pp" "c6713dskinit.pp" "detect_envelope.pp" "emif_lcd.pp" "find_distance.pp" "find_max.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" "xcorr.pp" 
+	-$(RM) "block_dc.obj" "c6713dskinit.obj" "detect_envelope.obj" "emif_lcd.obj" "find_distance.obj" "find_max.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "xcorr.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

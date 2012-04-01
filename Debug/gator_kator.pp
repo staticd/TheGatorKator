@@ -26,6 +26,7 @@ gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fra
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/emif_lcd.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_max.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_distance.h
 
 ../gator_kator.c: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/C6713dskinit.h: 
@@ -53,3 +54,4 @@ C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/frame_and_filter.h:
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/emif_lcd.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_max.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_distance.h: 

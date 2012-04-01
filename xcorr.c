@@ -12,6 +12,8 @@ int i, j;
 int delay = 0;
 double mx, my, sx, sy, sxy, denom;
 
+// need to account for normalized correlation with real vector
+
 void xcorr(float *x, float *y, int length, float *r) {
 
 	int maxdelay = length/2;
