@@ -22,6 +22,14 @@ gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/dsk
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/stdio.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/linkage.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/stdarg.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/math.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/float.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/access.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/elfnames.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/mathf.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/mathl.h
+gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/frame_and_filter.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/emif_lcd.h
@@ -51,6 +59,14 @@ C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/dsk6713_led.h:
 C:/ti/ccsv5/tools/compiler/c6000/include/stdio.h: 
 C:/ti/ccsv5/tools/compiler/c6000/include/linkage.h: 
 C:/ti/ccsv5/tools/compiler/c6000/include/stdarg.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/math.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/float.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/access.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/elfnames.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/mathf.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/mathl.h: 
+C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/frame_and_filter.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/emif_lcd.h: 

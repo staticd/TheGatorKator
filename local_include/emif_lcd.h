@@ -8,7 +8,7 @@
 #ifndef EMIF_LCD_H_
 #define EMIF_LCD_H_
 
-void set_LCD_characters();
+void set_LCD_characters(int t[], int b[]);
 void send_LCD_characters();
 void init_LCD();
 void LCD_PUT_CMD(int data);

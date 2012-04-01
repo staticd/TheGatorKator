@@ -23,13 +23,10 @@ int input, output1;
 // holds FFT array after downsizing
 float bandage[16];
 
-//int toprow[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-//int botrow[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-// toprow ==> "Signal Detected"
-int toprow[16] = {83, 105, 103, 110, 97, 108, 32, 68, 101, 116, 101, 99, 116, 101, 100, 33};
-// botrow ==> "Distance:XX.X ft"
-int botrow[16] = {68, 105, 115, 116, 97, 110, 99, 101, 58, 88, 88, 46, 88, 32, 102, 116};
+// toprow ==> "The GatorKator  "
+int toprow[16] = {84, 104, 101, 32, 71, 97, 116, 111, 114, 75, 97, 116, 111, 114, 32, 32};
+// botrow ==> "---------------"
+int botrow[16] = {45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45};
 
 // start on top row
 short rowselect = 1;
@@ -49,33 +46,15 @@ short colselect = 0;
 #define LCD_SECOND_LINE 0xC0
 
 // to fill arrays with characters
-void set_LCD_characters()
+void set_LCD_characters(int *t, int *b)
 {
 	// temp index variable
 	int n = 0;
 
 	for (n = 0; n < 16; n++) {
 
-		// first threshold
-		if(bandage[n] > 40000)
-		{
-			// block character
-			toprow[n] = 0xFF;
-			botrow[n] = 0xFF;
-		}
-		// second threshold
-		else if(bandage[n] > 20000)
-		{
-			// blank space
-			toprow[n] = 0x20;
-			botrow[n] = 0xFF;
-		}
-		// below second threshold
-		else
-		{
-			toprow[n] = 0x20;
-			botrow[n] = 0x20;
-		}
+		toprow[n] = t[n];
+		botrow[n] = b[n];
 	}
 }
 

@@ -18,6 +18,16 @@
 
 int signal_on = 0;
 int row_index = 0;
+/*
+ * We have instantiated the use of call_count to avoid having every other
+ * sample equal 0.0.  This is because we are incrementing row_index each time
+ * we call frame_and_filter and therefore have to account that we want the
+ * appropriate sample put in the appropriate index of the buffer.
+ *
+ * This also ensures that we are not actually decimating by two and therefore
+ * causing aliasing because we are then over sampling in that case.
+ *
+ */
 int call_count = 0;
 
 int frame_and_filter(short sample, float *data) {
