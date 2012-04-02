@@ -8,18 +8,17 @@
 #include <math.h>
 
 // custom includes
+#include <gator_kator.h>
 #include <frame_and_filter.h>
 #include <xcorr.h>
 #include <emif_lcd.h>
 #include <find_max.h>
 #include <find_distance.h>
 #include <soi.h>
+#include <copy_to_struct.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
-
-// this value should correspond with number of samples in correlation vector
-#define row_len 32768 //2^15
 
 /*
  * we only need a few samples to calculate the lag between mics
@@ -68,6 +67,12 @@ float distance_corr_buffer[2*dist_len-1];
 #pragma DATA_SECTION(match_corr_buffer, ".EXTRAM")
 float match_corr_buffer[2*dist_len-1];
 
+#pragma DATA_SECTION(real_data_buffer, ".EXTRAM")
+struct buffer real_data_buffer;
+
+#pragma DATA_SECTION(soi_data_buffer, ".EXTRAM")
+struct buffer soi_data_buffer;
+
 /*****************************************************************************
  * Function Prototypes
  *****************************************************************************/
@@ -110,6 +115,9 @@ void main() {
 	 *
 	 */
 
+	// initialize soi_data_buffer
+	copy_to_struct(soi, &soi_data_buffer);
+
 	// begin infinite process
 	while(1) {
 
@@ -143,6 +151,7 @@ void main() {
 			// show collecting samples is complete
 			if (signal_status >= (2 * row_len)) {
 
+				copy_to_struct(input_left_buffer, &real_data_buffer);
 				DSK6713_LED_on(0);
 				program_control = 1;
 			}
@@ -252,6 +261,10 @@ void init_buffer() {
 
 		input_left_buffer[i] = 0.0;
 		input_right_buffer[i] = 0.0;
+		soi_data_buffer.data[i].real = 0.0;
+		soi_data_buffer.data[i].imag = 0.0;
+		real_data_buffer.data[i].real = 0.0;
+		real_data_buffer.data[i].imag = 0.0;
 	}
 }
 

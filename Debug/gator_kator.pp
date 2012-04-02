@@ -30,12 +30,14 @@ gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/mathf.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/mathl.h
 gator_kator.obj: C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/gator_kator.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/frame_and_filter.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/emif_lcd.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_max.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_distance.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/soi.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/copy_to_struct.h
 
 ../gator_kator.c: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/C6713dskinit.h: 
@@ -67,9 +69,11 @@ C:/ti/ccsv5/tools/compiler/c6000/include/mathf.h:
 C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h: 
 C:/ti/ccsv5/tools/compiler/c6000/include/mathl.h: 
 C:/ti/ccsv5/tools/compiler/c6000/include/unaccess.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/gator_kator.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/frame_and_filter.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/xcorr.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/emif_lcd.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_max.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_distance.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/soi.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/copy_to_struct.h: 

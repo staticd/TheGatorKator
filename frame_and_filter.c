@@ -9,15 +9,16 @@
 #include <detect_envelope.h>
 #include <block_dc.h>
 #include <fir_filter.h>
+#include <gator_kator.h>
 
 //test
 #include <stdio.h>
 
-#define row_len 32768 // 2^15
 #define threshold 1500 // set with max amp input and loudest audio to trigger sampling
 
 int signal_on = 0;
 int row_index = 0;
+
 /*
  * We have instantiated the use of call_count to avoid having every other
  * sample equal 0.0.  This is because we are incrementing row_index each time

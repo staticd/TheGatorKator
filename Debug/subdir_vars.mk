@@ -14,6 +14,7 @@ LIB_SRCS += \
 C_SRCS += \
 ../block_dc.c \
 ../c6713dskinit.c \
+../copy_to_struct.c \
 ../detect_envelope.c \
 ../emif_lcd.c \
 ../find_distance.c \
@@ -26,6 +27,7 @@ C_SRCS += \
 OBJS += \
 ./block_dc.obj \
 ./c6713dskinit.obj \
+./copy_to_struct.obj \
 ./detect_envelope.obj \
 ./emif_lcd.obj \
 ./find_distance.obj \
@@ -38,6 +40,7 @@ OBJS += \
 C_DEPS += \
 ./block_dc.pp \
 ./c6713dskinit.pp \
+./copy_to_struct.pp \
 ./detect_envelope.pp \
 ./emif_lcd.pp \
 ./find_distance.pp \
@@ -50,6 +53,7 @@ C_DEPS += \
 C_DEPS__QUOTED += \
 "block_dc.pp" \
 "c6713dskinit.pp" \
+"copy_to_struct.pp" \
 "detect_envelope.pp" \
 "emif_lcd.pp" \
 "find_distance.pp" \
@@ -62,6 +66,7 @@ C_DEPS__QUOTED += \
 OBJS__QUOTED += \
 "block_dc.obj" \
 "c6713dskinit.obj" \
+"copy_to_struct.obj" \
 "detect_envelope.obj" \
 "emif_lcd.obj" \
 "find_distance.obj" \
@@ -74,6 +79,7 @@ OBJS__QUOTED += \
 C_SRCS__QUOTED += \
 "../block_dc.c" \
 "../c6713dskinit.c" \
+"../copy_to_struct.c" \
 "../detect_envelope.c" \
 "../emif_lcd.c" \
 "../find_distance.c" \
