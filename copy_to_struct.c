@@ -7,15 +7,34 @@
 
 #include <gator_kator.h>
 
-#define row_len 16384 // 2^15
-
-void copy_to_struct (float *real_data, struct buffer *complex_data) {
+void copy_to_struct (float *real_data, struct complex_buffer *complex_data) {
 
 	int ii;
+	int jj = 0;
+	int kk = 0;
 
-	//init buffer
 	for (ii = 0; ii < row_len; ii++) {
 
-		complex_data->data[ii].real = real_data[ii];
+		complex_data->data[jj][kk].real = real_data[ii];
+
+		// jj max 128, kk max 256
+		if (jj >= 128) {
+
+			jj = 0;
+		}
+		else  {
+
+			jj++;
+		}
+
+		if (kk >= 256) {
+
+			kk = 0;
+		}
+		else {
+
+			kk++;
+		}
 	}
+
 }

@@ -1,1 +1,1 @@
-"../block_dc.c" "../c6713dskinit.c" "../copy_to_struct.c" "../detect_envelope.c" "../emif_lcd.c" "../find_distance.c" "../find_max.c" "../fir_filter.c" "../frame_and_filter.c" "../gator_kator.c" "../xcorr.c" 
+"../block_dc.c" "../c6713dskinit.c" "../copy_to_struct.c" "../detect_envelope.c" "../emif_lcd.c" "../fft.c" "../find_distance.c" "../find_max.c" "../fir_filter.c" "../frame_and_filter.c" "../gator_kator.c" "../power_spectrum.c" "../xcorr.c" 

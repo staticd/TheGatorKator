@@ -17,11 +17,13 @@ C_SRCS += \
 ../copy_to_struct.c \
 ../detect_envelope.c \
 ../emif_lcd.c \
+../fft.c \
 ../find_distance.c \
 ../find_max.c \
 ../fir_filter.c \
 ../frame_and_filter.c \
 ../gator_kator.c \
+../power_spectrum.c \
 ../xcorr.c 
 
 OBJS += \
@@ -30,11 +32,13 @@ OBJS += \
 ./copy_to_struct.obj \
 ./detect_envelope.obj \
 ./emif_lcd.obj \
+./fft.obj \
 ./find_distance.obj \
 ./find_max.obj \
 ./fir_filter.obj \
 ./frame_and_filter.obj \
 ./gator_kator.obj \
+./power_spectrum.obj \
 ./xcorr.obj 
 
 C_DEPS += \
@@ -43,11 +47,13 @@ C_DEPS += \
 ./copy_to_struct.pp \
 ./detect_envelope.pp \
 ./emif_lcd.pp \
+./fft.pp \
 ./find_distance.pp \
 ./find_max.pp \
 ./fir_filter.pp \
 ./frame_and_filter.pp \
 ./gator_kator.pp \
+./power_spectrum.pp \
 ./xcorr.pp 
 
 C_DEPS__QUOTED += \
@@ -56,11 +62,13 @@ C_DEPS__QUOTED += \
 "copy_to_struct.pp" \
 "detect_envelope.pp" \
 "emif_lcd.pp" \
+"fft.pp" \
 "find_distance.pp" \
 "find_max.pp" \
 "fir_filter.pp" \
 "frame_and_filter.pp" \
 "gator_kator.pp" \
+"power_spectrum.pp" \
 "xcorr.pp" 
 
 OBJS__QUOTED += \
@@ -69,11 +77,13 @@ OBJS__QUOTED += \
 "copy_to_struct.obj" \
 "detect_envelope.obj" \
 "emif_lcd.obj" \
+"fft.obj" \
 "find_distance.obj" \
 "find_max.obj" \
 "fir_filter.obj" \
 "frame_and_filter.obj" \
 "gator_kator.obj" \
+"power_spectrum.obj" \
 "xcorr.obj" 
 
 C_SRCS__QUOTED += \
@@ -82,11 +92,13 @@ C_SRCS__QUOTED += \
 "../copy_to_struct.c" \
 "../detect_envelope.c" \
 "../emif_lcd.c" \
+"../fft.c" \
 "../find_distance.c" \
 "../find_max.c" \
 "../fir_filter.c" \
 "../frame_and_filter.c" \
 "../gator_kator.c" \
+"../power_spectrum.c" \
 "../xcorr.c" 
 
 

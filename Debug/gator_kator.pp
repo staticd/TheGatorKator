@@ -38,6 +38,7 @@ gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fin
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_distance.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/soi.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/copy_to_struct.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fft.h
 
 ../gator_kator.c: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/C6713dskinit.h: 
@@ -77,3 +78,4 @@ C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_max.h:
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/find_distance.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/soi.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/copy_to_struct.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fft.h: 

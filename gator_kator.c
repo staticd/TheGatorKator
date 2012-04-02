@@ -16,6 +16,7 @@
 #include <find_distance.h>
 #include <soi.h>
 #include <copy_to_struct.h>
+#include <fft.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -68,10 +69,10 @@ float distance_corr_buffer[2*dist_len-1];
 float match_corr_buffer[2*dist_len-1];
 
 #pragma DATA_SECTION(real_data_buffer, ".EXTRAM")
-struct buffer real_data_buffer;
+struct complex_buffer real_data_buffer;
 
 #pragma DATA_SECTION(soi_data_buffer, ".EXTRAM")
-struct buffer soi_data_buffer;
+struct complex_buffer soi_data_buffer;
 
 /*****************************************************************************
  * Function Prototypes
@@ -100,6 +101,7 @@ void main() {
 	int match_percent;
 	char match_array[2];
 	char dist_array[3] = {48, 48, 48};
+	int stages = 8;
 
 	// initialize sample input buffers
 	init_buffer();
@@ -117,6 +119,7 @@ void main() {
 
 	// initialize soi_data_buffer
 	copy_to_struct(soi, &soi_data_buffer);
+	fft(&soi_data_buffer, col_length, stages);
 
 	// begin infinite process
 	while(1) {
@@ -152,6 +155,9 @@ void main() {
 			if (signal_status >= (2 * row_len)) {
 
 				copy_to_struct(input_left_buffer, &real_data_buffer);
+
+				// get fft of real_data_buffer
+				fft(&real_data_buffer, col_length, stages);
 				DSK6713_LED_on(0);
 				program_control = 1;
 			}
@@ -166,13 +172,16 @@ void main() {
 				send_LCD_characters();
 				lcd_control = 3;
 			}
+
 			// pass left and right buffers to xcorr
 			xcorr(input_left_buffer, input_right_buffer, dist_len, distance_corr_buffer);
+
 			// pointer gets reference to populated correlation vector with max value and its index
 			dmb = find_max(distance_corr_buffer, 2*dist_len-1, dist_max_buffer);
-//			printf("max corr: %f\n", dmb[0]);
-//			printf("lag: %f\n", dmb[1]);
-//			printf("distance: %f\n", find_distance(dmb[1]));
+			//			printf("max corr: %f\n", dmb[0]);
+			//			printf("lag: %f\n", dmb[1]);
+			//			printf("distance: %f\n", find_distance(dmb[1]));
+
 			program_control = 2;
 			DSK6713_LED_on(1);
 		}
@@ -188,8 +197,8 @@ void main() {
 			}
 			xcorr(input_left_buffer, soi, dist_len, match_corr_buffer);
 			mmb = find_max(match_corr_buffer, 2*dist_len-1, match_max_buffer);
-//			printf("match max corr: %f\n", mmb[0]);
-//			printf("match lag: %f\n", mmb[1]);
+			//			printf("match max corr: %f\n", mmb[0]);
+			//			printf("match lag: %f\n", mmb[1]);
 
 			// convert mmb[0] to ascii for display on LCD
 			match_percent = (int)floor((mmb[0] * 100));
@@ -208,7 +217,7 @@ void main() {
 				if (dist_array[0] == 48) {
 
 					match_percent_bot[10] = 42;
-//					printf("**********dist_array: %s\n", dist_array);
+					//					printf("**********dist_array: %s\n", dist_array);
 				}
 				else {
 
@@ -255,16 +264,24 @@ short playback() {
 
 void init_buffer() {
 
-	int i;
+	int i, j;
+
 	// initialize input buffers
 	for(i = 0; i < row_len; i++) {
 
 		input_left_buffer[i] = 0.0;
 		input_right_buffer[i] = 0.0;
-		soi_data_buffer.data[i].real = 0.0;
-		soi_data_buffer.data[i].imag = 0.0;
-		real_data_buffer.data[i].real = 0.0;
-		real_data_buffer.data[i].imag = 0.0;
+	}
+
+	for ( i=0; i < row_length ; i++ ) {
+
+		for ( j = 0; j < col_length ; j++) {
+
+			real_data_buffer.data[i][j].real = 0.0;
+			real_data_buffer.data[i][j].imag = 0.0;
+			soi_data_buffer.data[i][j].real = 0.0;
+			soi_data_buffer.data[i][j].imag = 0.0;
+		}
 	}
 }
 
