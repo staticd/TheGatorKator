@@ -13,7 +13,7 @@
 //test
 #include <stdio.h>
 
-#define row_len 20000
+#define row_len 32768 // 2^15
 #define threshold 1500 // set with max amp input and loudest audio to trigger sampling
 
 int signal_on = 0;

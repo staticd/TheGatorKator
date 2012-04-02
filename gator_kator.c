@@ -19,7 +19,7 @@
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
 // this value should correspond with number of samples in correlation vector
-#define row_len 20000
+#define row_len 32768 //2^15
 
 /*
  * we only need a few samples to calculate the lag between mics
@@ -98,6 +98,17 @@ void main() {
 
 	// initialize sample input buffers
 	init_buffer();
+
+	/*
+	 * TODO: I think we realize now that the best way to find a match is with
+	 * the use of the FFT.  If we don't do this, we are going to be continuously
+	 * searching for this perfect match in time between the sample you have in
+	 * soi.h and whatever samples you collect.
+	 *
+	 * A good approach might be to evaluate the two FFT vectors against each
+	 * other and see what that gets you.
+	 *
+	 */
 
 	// begin infinite process
 	while(1) {
