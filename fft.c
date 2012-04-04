@@ -34,6 +34,7 @@ void fft (struct complex_buffer *input_data, int n, int m) {
 			n1 = n2;
 			n2 = n2/2;
 			e = PI/n1;
+
 			// compute Twiddle Factors
 			for (j = 0; j < n2; j++) {
 
@@ -71,6 +72,7 @@ void fft (struct complex_buffer *input_data, int n, int m) {
 		}
 	}
 
-//	printf("done!!!\n");
+	//	printf("done!!!\n");
+
 	return;
 }

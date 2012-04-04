@@ -26,6 +26,7 @@
 #include <power_spectrum.h>
 #include <normalize_real.h>
 #include <utils.h>
+#include <average_fft_magnitude.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -83,7 +84,6 @@ float distance_corr_buffer[2*dist_len-1];
 
 // correlation vector length: 2*match_len-1
 #pragma DATA_SECTION(match_corr_buffer, ".EXTRAM")
-// TODO: verify that these buffer lengths are correct--getting into trouble!
 float match_corr_buffer[2*match_len-1];
 
 #pragma DATA_SECTION(real_data_buffer, ".EXTRAM")
@@ -111,6 +111,11 @@ void main() {
 	char match_array[2] = {48, 126};
 	char dist_array[3] = {48, 48, 48};
 	int stages = 1;
+	float *av_fft_power_soi;
+	float average_fft_power_soi[col_length];
+	float *av_fft_power_input;
+	float average_fft_power_input[col_length];
+	float fft_corr_buffer[2*col_length-1];
 
 	// initialize sample input buffers
 	init_buffer();
@@ -129,11 +134,11 @@ void main() {
 	copy_to_struct(soi, &soi_data_buffer); // copy soi to struct for fft
 	fft(&soi_data_buffer, col_length, stages); // take fft of soi
 
-
 	// TODO: you will have to change power spectrum to only take an array instead of the struct since that's what
 	// we're after here.
 	// TODO: get average for cross-correlation
 	power_spectrum(&soi_data_buffer);
+	av_fft_power_soi = average_fft_magnitude(&soi_data_buffer, average_fft_power_soi); // find average of 256 point fft
 
 	// begin infinite process
 	while(1) {
@@ -170,6 +175,7 @@ void main() {
 
 				// normalize data for near scale invariant correlation
 				normalize_real(input_left_buffer);
+
 				/*
 				 * TODO: We don't need to normalize input_right_buffer.  We
 				 * should just copy input_left_buffer to a different array
@@ -187,6 +193,8 @@ void main() {
 
 				// get power spectrum
 				power_spectrum(&real_data_buffer);
+				av_fft_power_input = average_fft_magnitude(&real_data_buffer, average_fft_power_input); // find average of 256 point fft
+
 				// TODO: take average of power spectrum
 
 				DSK6713_LED_on(0);
@@ -194,7 +202,7 @@ void main() {
 			}
 		}
 
-		// cross correlate left and right channels to get tau
+		// cross correlate left and right channels to get tau and best match coefficients
 		if ((DSK6713_DIP_get(1) == 0) && program_control == 1) {
 
 			if (lcd_control == 2) {
@@ -204,11 +212,13 @@ void main() {
 				lcd_control = 3;
 			}
 
-			// pass left and right buffers to xcorr
+			// pass left and right buffers to xcorr to find lag for distance calculation
 			xcorr(input_left_buffer, input_right_buffer, dist_len, distance_corr_buffer);
 
 			// pointer gets reference to populated correlation vector with max value and its index
 			dmb = find_max(distance_corr_buffer, 2*dist_len-1, dist_max_buffer);
+
+			// debug
 			// printf("max corr: %f\n", dmb[0]);
 			// printf("lag: %f\n", dmb[1]);
 			// printf("distance: %f\n", find_distance(dmb[1]));
@@ -226,9 +236,15 @@ void main() {
 				send_LCD_characters();
 				lcd_control = 4;
 			}
+
+			// compute cross correlation of input and signal of interest
 			xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
+
+			// determine max coefficient and lag position
 			mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
-			printf("match max corr: %f\n", mmb[0]);
+
+			// debug
+			// printf("match max corr: %f\n", mmb[0]);
 			// printf("match lag: %f\n", mmb[1]);
 
 			// convert mmb[0] to ascii for display on LCD
@@ -259,6 +275,8 @@ void main() {
 
 					// 42 is `*' in ASCII we do this to denote the distance value is basically garbage right now
 					match_percent_bot[10] = 42;
+
+					// debug
 					// printf("**********dist_array: %s\n", dist_array);
 				}
 				else {
@@ -272,6 +290,7 @@ void main() {
 			}
 
 			// TODO: cross correlate input spectrum with SOI spectrum to determine match
+			xcorr(av_fft_power_input, av_fft_power_soi, col_length, fft_corr_buffer);
 
 			program_control = 3;
 			DSK6713_LED_on(2);

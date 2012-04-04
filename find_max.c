@@ -29,8 +29,11 @@ float *find_max(float *a, int length, float *ret_buffer) {
 
 	ret_buffer[0] = max; // this is the max correlation coeff
 	temp = ((float)(length/2) - index) * (1/samp_rate);
-	//printf("temp: %f\n", temp);
-	//printf("index: %f\n", index);
+
+	// debug
+	// printf("temp: %f\n", temp);
+	// printf("index: %f\n", index);
+
 	lag = fabsf(temp);
 	ret_buffer[1] = lag;
 
