@@ -1,1 +1,15 @@
-part number, nomenclature, quantity, cost
+part number, nomenclature, quantity, source, cost, comment
+
+181, standard lcd 16x2 + extras - white on blue, 1 each, adafruit.com/products/181, 9.95+shipping,
+adpt2qmfmsm, audio adapter calbe stereo miniplug left and right mono 1/4" jacks, 1 each, audiogear.com/cgi-bin/shopper.cgi?key=ADPT2QMFMSM&preadd=action, 4.19+shipping,
+xm8500, behringer xm8500 dynamic cardoid microphone, 2 each, amazon.com/Behringer-XM8500-Dynamic-Cardioid-Microphone/dp/B0002KZAKS, 21.97+shipping,
+, art tube mp professional tube microphone preamp, 2 each, amazon.com/ART-Tube-Studio-Mic-Preamp/dp/B0002E50MC/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1333520955&sr=1-2, 29.99+shipping,
+tw-e41-102b, twin breadboard 3 terminal posts 70 pc wire kit, 1 each, frys.com/product/3849277, 15.99+shipping,
+, cbi ultimate series male xlr to 1/4 inch trs cable 15 foot, 2 each, mazon.com/CBI-Ultimate-Series-Male-Cable/dp/B0013MOZPK, 14.95+shipping,
+, 1/4 inch male trs to 1/4 inch male trs cable 3 foot, 2 each, guitar center, 6.99+tax
+tms320c6713, dsp starter kit by spectrum digital, 1 each, ebay.com, 225.00+shipping
+, code composer studio v5 by texas instruments, 1 each, ti.com/lsds/ti/university_program/ti_university_program.page, free
+, pc compatible with code composer studio with usb capability, 1 each,,,
+, matlab r2011a with communication systems tool box, 1 each, mathworks.com/academia/student_version/, 128.00,
+, 3.5 mm male to 3.5 mm male minijack cable, 2 each,,, used for testing with pc only
+, microphone stands, 2 each, custom built, ~20.00+time,

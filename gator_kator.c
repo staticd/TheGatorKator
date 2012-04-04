@@ -224,13 +224,14 @@ void main() {
 			}
 			xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
 			mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
-			// printf("match max corr: %f\n", mmb[0]);
+			printf("match max corr: %f\n", mmb[0]);
 			// printf("match lag: %f\n", mmb[1]);
 
 			// convert mmb[0] to ascii for display on LCD
 			match_percent = (int)floor((mmb[0] * 100));
 
 			// NOTE: This can be tricky so watch for anomalies!
+			// TODO: problem found!  You need to account for single digit percentages!
 			sprintf(match_array, "%d", match_percent);
 
 			// convert dmb[1] to ascii for display on LCD
@@ -239,6 +240,7 @@ void main() {
 			if (lcd_control == 4) {
 
 				// populate top row values
+				// TODO: need to account for single digit percentages.
 				match_percent_top[7] = match_array[0];
 				match_percent_top[8] = match_array[1];
 
