@@ -6,14 +6,23 @@
  */
 
 #include <gator_kator.h>
+#include <math.h>
 
-void power_spectrum (struct buffer *fft_data) {
+power_spectrum(struct complex_buffer *fft_data) {
 
-	int ii;
-	for (ii = 0; ii < row_len; ii++) {
+	int i,j;
 
-		fft_data->data[ii].real = ((fft_data->data[ii].real)*(fft_data->data[ii].real))+ ((fft_data->data[ii].imag)*(fft_data->data[ii].imag));
+	for (i=0; i<row_length; i++) {
+
+		//for each frame
+		for ( j=0; j < col_length; j++) {
+
+			// power: (real)^2 + (imaginary)^2
+			fft_data->data[i][j].real = sqrt(((fft_data->data[i][j].real)*(fft_data->data[i][j].real)) + ((fft_data->data[i][j].imag)*(fft_data->data[i][j].imag)));
+		}
 	}
 
-	return;
+	// TODO: need to normalize before return
+
+	return; /* Return back to Main Function */
 }

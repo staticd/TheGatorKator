@@ -12,6 +12,7 @@ LIB_SRCS += \
 ../rts6700.lib 
 
 C_SRCS += \
+../average_fft_magnitude.c \
 ../block_dc.c \
 ../c6713dskinit.c \
 ../copy_to_struct.c \
@@ -23,10 +24,12 @@ C_SRCS += \
 ../fir_filter.c \
 ../frame_and_filter.c \
 ../gator_kator.c \
+../normalize_real.c \
 ../power_spectrum.c \
 ../xcorr.c 
 
 OBJS += \
+./average_fft_magnitude.obj \
 ./block_dc.obj \
 ./c6713dskinit.obj \
 ./copy_to_struct.obj \
@@ -38,10 +41,12 @@ OBJS += \
 ./fir_filter.obj \
 ./frame_and_filter.obj \
 ./gator_kator.obj \
+./normalize_real.obj \
 ./power_spectrum.obj \
 ./xcorr.obj 
 
 C_DEPS += \
+./average_fft_magnitude.pp \
 ./block_dc.pp \
 ./c6713dskinit.pp \
 ./copy_to_struct.pp \
@@ -53,10 +58,12 @@ C_DEPS += \
 ./fir_filter.pp \
 ./frame_and_filter.pp \
 ./gator_kator.pp \
+./normalize_real.pp \
 ./power_spectrum.pp \
 ./xcorr.pp 
 
 C_DEPS__QUOTED += \
+"average_fft_magnitude.pp" \
 "block_dc.pp" \
 "c6713dskinit.pp" \
 "copy_to_struct.pp" \
@@ -68,10 +75,12 @@ C_DEPS__QUOTED += \
 "fir_filter.pp" \
 "frame_and_filter.pp" \
 "gator_kator.pp" \
+"normalize_real.pp" \
 "power_spectrum.pp" \
 "xcorr.pp" 
 
 OBJS__QUOTED += \
+"average_fft_magnitude.obj" \
 "block_dc.obj" \
 "c6713dskinit.obj" \
 "copy_to_struct.obj" \
@@ -83,10 +92,12 @@ OBJS__QUOTED += \
 "fir_filter.obj" \
 "frame_and_filter.obj" \
 "gator_kator.obj" \
+"normalize_real.obj" \
 "power_spectrum.obj" \
 "xcorr.obj" 
 
 C_SRCS__QUOTED += \
+"../average_fft_magnitude.c" \
 "../block_dc.c" \
 "../c6713dskinit.c" \
 "../copy_to_struct.c" \
@@ -98,6 +109,7 @@ C_SRCS__QUOTED += \
 "../fir_filter.c" \
 "../frame_and_filter.c" \
 "../gator_kator.c" \
+"../normalize_real.c" \
 "../power_spectrum.c" \
 "../xcorr.c" 
 

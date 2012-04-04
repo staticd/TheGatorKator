@@ -3,6 +3,13 @@
 ################################################################################
 
 # Each subdirectory must supply rules for building sources it contributes
+average_fft_magnitude.obj: ../average_fft_magnitude.c $(GEN_OPTS) $(GEN_SRCS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C6000 Compiler'
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --include_path="C:/ti/ccsv5/tools/compiler/c6000/include" --include_path="C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include" --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi --preproc_with_compile --preproc_dependency="average_fft_magnitude.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
 block_dc.obj: ../block_dc.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C6000 Compiler'
@@ -77,6 +84,13 @@ gator_kator.obj: ../gator_kator.c $(GEN_OPTS) $(GEN_SRCS)
 	@echo 'Building file: $<'
 	@echo 'Invoking: C6000 Compiler'
 	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --include_path="C:/ti/ccsv5/tools/compiler/c6000/include" --include_path="C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include" --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi --preproc_with_compile --preproc_dependency="gator_kator.pp" $(GEN_OPTS__FLAG) "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+normalize_real.obj: ../normalize_real.c $(GEN_OPTS) $(GEN_SRCS)
+	@echo 'Building file: $<'
+	@echo 'Invoking: C6000 Compiler'
+	"C:/ti/ccsv5/tools/compiler/c6000/bin/cl6x" -mv-mv6710+ -g --define=CHIP_6713 --include_path="C:/ti/ccsv5/tools/compiler/c6000/include" --include_path="C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include" --verbose --display_error_number --diag_warning=225 --mem_model:data=far --abi=coffabi --preproc_with_compile --preproc_dependency="normalize_real.pp" $(GEN_OPTS__FLAG) "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

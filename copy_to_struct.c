@@ -18,23 +18,26 @@ void copy_to_struct (float *real_data, struct complex_buffer *complex_data) {
 		complex_data->data[jj][kk].real = real_data[ii];
 
 		// jj max 128, kk max 256
-		if (jj >= 128) {
 
-			jj = 0;
-		}
-		else  {
-
-			jj++;
-		}
-
+		// kk --> fill frame with samples
 		if (kk >= 256) {
 
 			kk = 0;
 		}
-		else {
+		else  {
 
 			kk++;
 		}
-	}
 
+		/*
+		 * TODO: determine if overlap is necessary for fft implementation
+		 */
+
+		// jj --> increment frame count when current frame is full
+		// this implies no-overlap
+		if ((kk >= 256) && (jj < 128)) {
+
+			jj++;
+		}
+	}
 }

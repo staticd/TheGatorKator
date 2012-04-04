@@ -8,6 +8,6 @@
 #ifndef POWER_SPECTRUM_H_
 #define POWER_SPECTRUM_H_
 
-void power_spectrum (struct buffer *fft_data);
+void power_spectrum (struct complex_buffer *fft_data);
 
 #endif /* POWER_SPECTRUM_H_ */

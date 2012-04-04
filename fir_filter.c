@@ -20,7 +20,7 @@ float filter_signal(short sample) {
 	float yn = 0.0;
 	int i;
 
-	x[0] = (float)detect_envelope(block_dc(sample));	// x[0] = sample --> block dc --> detect envelope
+	x[0] = (float)sample;
 
 	for (i = 0; i < N; i++) yn += (h[i] * x[i]); // y(n) = sum[ filter_coeff * x(n-i) ]
 

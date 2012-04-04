@@ -17,15 +17,16 @@
 #include <soi.h>
 #include <copy_to_struct.h>
 #include <fft.h>
+#include <power_spectrum.h>
+#include <normalize_real.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
-/*
- * we only need a few samples to calculate the lag between mics
- * so we should have a value that is 2*dist_len-1
- */
 #define dist_len 1024
+
+// takes ~60 seconds to perform time domain correlation with this length
+#define match_len row_len/4
 
 // set sample rate and input source
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ; // set sampling rate
@@ -62,11 +63,13 @@ float input_left_buffer[row_len];
 #pragma DATA_SECTION(input_right_buffer, ".EXTRAM")
 float input_right_buffer[row_len];
 
+// correlation vector length: 2*dist_len-1
 #pragma DATA_SECTION(distance_corr_buffer, ".EXTRAM")
 float distance_corr_buffer[2*dist_len-1];
 
+// correlation vector length: 2*match_len-1
 #pragma DATA_SECTION(match_corr_buffer, ".EXTRAM")
-float match_corr_buffer[2*dist_len-1];
+float match_corr_buffer[2*match_len-1];
 
 #pragma DATA_SECTION(real_data_buffer, ".EXTRAM")
 struct complex_buffer real_data_buffer;
@@ -101,7 +104,7 @@ void main() {
 	int match_percent;
 	char match_array[2];
 	char dist_array[3] = {48, 48, 48};
-	int stages = 8;
+	int stages = 1;
 
 	// initialize sample input buffers
 	init_buffer();
@@ -118,8 +121,13 @@ void main() {
 	 */
 
 	// initialize soi_data_buffer
-	copy_to_struct(soi, &soi_data_buffer);
-	fft(&soi_data_buffer, col_length, stages);
+	copy_to_struct(soi, &soi_data_buffer); // put in struct for fft
+	fft(&soi_data_buffer, col_length, stages); // take fft
+	// get average for cross-correlation
+
+	// TODO: you will have to change power spectrum to only take an array instead of the struct since that's what
+	// we're after here.
+	power_spectrum(&soi_data_buffer);
 
 	// begin infinite process
 	while(1) {
@@ -154,10 +162,33 @@ void main() {
 			// show collecting samples is complete
 			if (signal_status >= (2 * row_len)) {
 
+				// XXX: normalize input_left_buffer
+				normalize_real(input_left_buffer);
+				// XXX: normalize input_right_buffer
+				normalize_real(input_right_buffer);
+
+				/*
+				 * TODO: We don't need to normalize input_right_buffer.  We
+				 * should just copy input_left_buffer to a different array
+				 * for the cross correlation that we do for distance later on
+				 * in the signal processing path.  However, let's just keep it
+				 * simple for now.
+				 *
+				 */
 				copy_to_struct(input_left_buffer, &real_data_buffer);
 
 				// get fft of real_data_buffer
 				fft(&real_data_buffer, col_length, stages);
+
+				// XXX: average_fft_magnitude
+
+				// get power spectrum
+
+				/*
+				 * TODO: find power spectrum of averaged values first
+				 */
+				power_spectrum(&real_data_buffer);
+
 				DSK6713_LED_on(0);
 				program_control = 1;
 			}
@@ -195,10 +226,10 @@ void main() {
 				send_LCD_characters();
 				lcd_control = 4;
 			}
-			xcorr(input_left_buffer, soi, dist_len, match_corr_buffer);
-			mmb = find_max(match_corr_buffer, 2*dist_len-1, match_max_buffer);
-			//			printf("match max corr: %f\n", mmb[0]);
-			//			printf("match lag: %f\n", mmb[1]);
+			xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
+			mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
+			// printf("match max corr: %f\n", mmb[0]);
+			// printf("match lag: %f\n", mmb[1]);
 
 			// convert mmb[0] to ascii for display on LCD
 			match_percent = (int)floor((mmb[0] * 100));
@@ -229,10 +260,10 @@ void main() {
 				lcd_control = 5;
 			}
 
+			// XXX: cross correlate input spectrum with SOI spectrum to determine match
 
 			program_control = 3;
 			DSK6713_LED_on(2);
-
 		}
 
 		// reset

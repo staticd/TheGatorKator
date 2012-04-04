@@ -79,7 +79,7 @@ MCBSP_Config AIC23CfgData = {
  * 0x001F is 12 dB gain
  */
 DSK6713_AIC23_Config config = { \
-    0x0019, /* Set-Up Reg 0       Left line input channel volume control */  \
+    0x0017, /* Set-Up Reg 0       Left line input channel volume control */  \
             /* LRS     0          simultaneous left/right volume: disabled */\
             /* LIM     0          left line input mute: disabled */          \
             /* XX      00         reserved */                                \
