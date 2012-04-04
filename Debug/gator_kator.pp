@@ -41,6 +41,7 @@ gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/cop
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fft.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/power_spectrum.h
 gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/normalize_real.h
+gator_kator.obj: C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/utils.h
 
 ../gator_kator.c: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/C6713dskinit.h: 
@@ -83,3 +84,4 @@ C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/copy_to_struct.h:
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/fft.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/power_spectrum.h: 
 C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/normalize_real.h: 
+C:/Users/staticd/workspace_v5_1/TheGatorKator/local_include/utils.h: 

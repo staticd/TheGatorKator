@@ -1,7 +1,7 @@
 ******************************************************************************
                TMS320C6x Linker PC v7.3.1                      
 ******************************************************************************
->> Linked Wed Apr 04 00:47:34 2012
+>> Linked Wed Apr 04 01:36:23 2012
 
 OUTPUT FILE NAME:   <TheGatorKator.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 0001b860
@@ -113,17 +113,18 @@ $BRID      0    00000000    00000560     COPY SECTION
 .text      0    000109e0    0000b540     
                   000109e0    00002a00     rts6700.lib : _printfi.obj (.text)
                   000133e0    00001020                 : memory.obj (.text)
-                  00014400    00000bc0     gator_kator.obj (.text)
-                  00014fc0    000007c0     c6713dskinit.obj (.text)
-                  00015780    00000780     xcorr.obj (.text)
-                  00015f00    000006a0     fft.obj (.text)
-                  000165a0    000004c0     rts6700.lib : imath40.obj (.text)
-                  00016a60    00000480                 : ecvt.obj (.text)
-                  00016ee0    00000480                 : fcvt.obj (.text)
-                  00017360    00000460     dsk6713bsl.lib : dsk6713.obj (.text)
-                  000177c0    00000400     rts6700.lib : cos.obj (.text)
-                  00017bc0    000003e0     emif_lcd.obj (.text)
-                  00017fa0    000003c0     rts6700.lib : sin.obj (.text)
+                  00014400    00000820     gator_kator.obj (.text)
+                  00014c20    000007c0     c6713dskinit.obj (.text)
+                  000153e0    00000780     xcorr.obj (.text)
+                  00015b60    000006a0     fft.obj (.text)
+                  00016200    000004c0     rts6700.lib : imath40.obj (.text)
+                  000166c0    00000480                 : ecvt.obj (.text)
+                  00016b40    00000480                 : fcvt.obj (.text)
+                  00016fc0    00000460     dsk6713bsl.lib : dsk6713.obj (.text)
+                  00017420    00000400     rts6700.lib : cos.obj (.text)
+                  00017820    000003e0     emif_lcd.obj (.text)
+                  00017c00    000003c0     rts6700.lib : sin.obj (.text)
+                  00017fc0    000003a0     utils.obj (.text)
                   00018360    00000300     dsk6713bsl.lib : dsk6713_aic23_opencodec.obj (.text)
                   00018660    00000300     rts6700.lib : frcdivd.obj (.text)
                   00018960    000002a0                 : sqrt.obj (.text)
@@ -264,21 +265,21 @@ address    name
 00019808   _DSK6713_LED_off
 00019870   _DSK6713_LED_on
 000198d4   _DSK6713_LED_toggle
-00017738   _DSK6713_getVersion
-00017390   _DSK6713_init
-00017690   _DSK6713_rget
-000176a4   _DSK6713_rset
+00017398   _DSK6713_getVersion
+00016ff0   _DSK6713_init
+000172f0   _DSK6713_rget
+00017304   _DSK6713_rset
 800bb094   _DSK6713_version
-000176b8   _DSK6713_wait
-0001770c   _DSK6713_waitusec
+00017318   _DSK6713_wait
+0001736c   _DSK6713_waitusec
 0001bc00   _IRQ_enable
 0001bd00   _IRQ_globalDisable
 0001bd20   _IRQ_globalEnable
 00019640   _IRQ_map
 0001bd40   _IRQ_nmiEnable
 0001bc40   _IRQ_reset
-00017e70   _LCD_PUT_CHAR
-00017dd4   _LCD_PUT_CMD
+00017ad0   _LCD_PUT_CHAR
+00017a34   _LCD_PUT_CMD
 0001b540   _MCBSP_config
 0001bd60   _MCBSP_getXmtEventId
 0001ae20   _MCBSP_open
@@ -318,9 +319,9 @@ ffffffff   ___pinit__
 0001be80   __cvtfd
 00018c00   __divd
 00019fa0   __divf
-00016960   __divli
+000165c0   __divli
 0001b300   __divu
-00016660   __divul
+000162c0   __divul
 800bae68   __dtors_ptr
 0001b8f8   __eqlf
 0001b3c0   __fixdi
@@ -343,8 +344,8 @@ ffffffff   ___pinit__
 000109e0   __printfi
 0001bc88   __register_lock
 0001bc9c   __register_unlock
-000168a4   __remli
-000165a0   __remul
+00016504   __remli
+00016200   __remul
 000192a0   __round
 0001bf20   __stack
 0001afe0   __strasg
@@ -359,7 +360,7 @@ ffffffff   ___pinit__
 800bad1c   _bandage
 0001b0c0   _block_dc
 800bad9c   _botrow
-00014fc0   _c6713_dsk_init
+00014c20   _c6713_dsk_init
 0001b860   _c_int00
 800bb070   _call_count
 00013864   _calloc
@@ -367,24 +368,24 @@ ffffffff   ___pinit__
 800ba6b8   _collecting_bot
 800ba678   _collecting_top
 800badde   _colselect
-000150e0   _comm_intr
-000150ac   _comm_poll
+00014d40   _comm_intr
+00014d0c   _comm_poll
 800baefc   _config
 0001aa20   _copy_to_struct
-000177c0   _cos
+00017420   _cos
 800bafb0   _delay
-00017f00   _delay_lcd
+00017b60   _delay_lcd
 800bafe0   _denom
 0001b180   _detect_envelope
 800ba7b8   _distance_bot
 80030000   _distance_corr_buffer
 800ba778   _distance_top
-00016a60   _ecvt
+000166c0   _ecvt
 800bb08c   _envelope
 800bb090   _errno
 00019080   _exit
-00016ee0   _fcvt
-00015f00   _fft
+00016b40   _fcvt
+00015b60   _fft
 0001a540   _filter_signal
 0001b720   _find_distance
 00019980   _find_max
@@ -396,19 +397,19 @@ ffffffff   ___pinit__
 800b9ff8   _h
 800baf24   _hAIC23_handle
 800bafa8   _i
-00017d48   _init_LCD
-00014c94   _init_buffer
+000179a8   _init_LCD
+00018038   _init_buffer
 800bad14   _input
 80010000   _input_left_buffer
-000155e8   _input_left_sample
+00015248   _input_left_sample
 80020000   _input_right_buffer
-000156b0   _input_right_sample
-000154e4   _input_sample
+00015310   _input_right_sample
+00015144   _input_sample
 800ba65c   _inputsource
 800bad10   _ioport
 800bafac   _j
 800ba674   _lcd_control
-00017f7c   _lcd_test
+00017bdc   _lcd_test
 0001a120   _ldexp
 800ba660   _left_signal_status
 0001a7c0   _ltoa
@@ -430,27 +431,27 @@ ffffffff   ___pinit__
 0001ab20   _normalize_real
 800bad0c   _output
 800bad18   _output1
-00015324   _output_left_sample
-00015404   _output_right_sample
-0001520c   _output_sample
-00014c1c   _playback
+00014f84   _output_left_sample
+00015064   _output_right_sample
+00014e6c   _output_sample
+00017fc0   _playback
 00019480   _power_spectrum
 800ba670   _program_control
 80039ff8   _real_data_buffer
 00013920   _realloc
-00014e14   _reset_leds
+000181bc   _reset_leds
 800ba664   _right_signal_status
 800ba66c   _row_ind
 800bb06c   _row_index
 800baddc   _rowselect
-00017c5c   _send_LCD_characters
-00017bc0   _set_LCD_characters
-00014e6c   _set_leds
+000178bc   _send_LCD_characters
+00017820   _set_LCD_characters
+00018214   _set_leds
 800ba738   _signal_detected_bot
 800ba6f8   _signal_detected_top
 800bb068   _signal_on
 800ba668   _signal_status
-00017fa0   _sin
+00017c00   _sin
 80000000   _soi
 80079ff8   _soi_data_buffer
 0001a2a0   _sprintf
@@ -458,10 +459,10 @@ ffffffff   ___pinit__
 800bafc8   _sx
 800bafd8   _sxy
 800bafd0   _sy
-00014ec4   _toggle
+0001826c   _toggle
 800bad5c   _toprow
 800ba328   _x
-00015780   _xcorr
+000153e0   _xcorr
 ffffffff   binit
 00000220   cinit
 00000220   end
@@ -492,43 +493,43 @@ address    name
 00013cb0   _free
 00014068   _memalign
 00014400   _main
-00014c1c   _playback
-00014c94   _init_buffer
-00014e14   _reset_leds
-00014e6c   _set_leds
-00014ec4   _toggle
-00014fc0   _c6713_dsk_init
-000150ac   _comm_poll
-000150e0   _comm_intr
-0001520c   _output_sample
-00015324   _output_left_sample
-00015404   _output_right_sample
-000154e4   _input_sample
-000155e8   _input_left_sample
-000156b0   _input_right_sample
-00015780   _xcorr
-00015f00   _fft
-000165a0   __remul
-00016660   __divul
-000168a4   __remli
-00016960   __divli
-00016a60   _ecvt
-00016ee0   _fcvt
-00017390   _DSK6713_init
-00017690   _DSK6713_rget
-000176a4   _DSK6713_rset
-000176b8   _DSK6713_wait
-0001770c   _DSK6713_waitusec
-00017738   _DSK6713_getVersion
-000177c0   _cos
-00017bc0   _set_LCD_characters
-00017c5c   _send_LCD_characters
-00017d48   _init_LCD
-00017dd4   _LCD_PUT_CMD
-00017e70   _LCD_PUT_CHAR
-00017f00   _delay_lcd
-00017f7c   _lcd_test
-00017fa0   _sin
+00014c20   _c6713_dsk_init
+00014d0c   _comm_poll
+00014d40   _comm_intr
+00014e6c   _output_sample
+00014f84   _output_left_sample
+00015064   _output_right_sample
+00015144   _input_sample
+00015248   _input_left_sample
+00015310   _input_right_sample
+000153e0   _xcorr
+00015b60   _fft
+00016200   __remul
+000162c0   __divul
+00016504   __remli
+000165c0   __divli
+000166c0   _ecvt
+00016b40   _fcvt
+00016ff0   _DSK6713_init
+000172f0   _DSK6713_rget
+00017304   _DSK6713_rset
+00017318   _DSK6713_wait
+0001736c   _DSK6713_waitusec
+00017398   _DSK6713_getVersion
+00017420   _cos
+00017820   _set_LCD_characters
+000178bc   _send_LCD_characters
+000179a8   _init_LCD
+00017a34   _LCD_PUT_CMD
+00017ad0   _LCD_PUT_CHAR
+00017b60   _delay_lcd
+00017bdc   _lcd_test
+00017c00   _sin
+00017fc0   _playback
+00018038   _init_buffer
+000181bc   _reset_leds
+00018214   _set_leds
+0001826c   _toggle
 00018360   _DSK6713_AIC23_openCodec
 00018660   __frcdivd
 00018960   _sqrt

@@ -9,6 +9,7 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/c6000
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./xcorr.obj" \
+"./utils.obj" \
 "./power_spectrum.obj" \
 "./normalize_real.obj" \
 "./gator_kator.obj" \
@@ -140,8 +141,8 @@ TheGatorKator.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "TheGatorKator.out"
-	-$(RM) "average_fft_magnitude.pp" "block_dc.pp" "c6713dskinit.pp" "copy_to_struct.pp" "detect_envelope.pp" "emif_lcd.pp" "fft.pp" "find_distance.pp" "find_max.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" "normalize_real.pp" "power_spectrum.pp" "xcorr.pp" 
-	-$(RM) "average_fft_magnitude.obj" "block_dc.obj" "c6713dskinit.obj" "copy_to_struct.obj" "detect_envelope.obj" "emif_lcd.obj" "fft.obj" "find_distance.obj" "find_max.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "normalize_real.obj" "power_spectrum.obj" "xcorr.obj" 
+	-$(RM) "average_fft_magnitude.pp" "block_dc.pp" "c6713dskinit.pp" "copy_to_struct.pp" "detect_envelope.pp" "emif_lcd.pp" "fft.pp" "find_distance.pp" "find_max.pp" "fir_filter.pp" "frame_and_filter.pp" "gator_kator.pp" "normalize_real.pp" "power_spectrum.pp" "utils.pp" "xcorr.pp" 
+	-$(RM) "average_fft_magnitude.obj" "block_dc.obj" "c6713dskinit.obj" "copy_to_struct.obj" "detect_envelope.obj" "emif_lcd.obj" "fft.obj" "find_distance.obj" "find_max.obj" "fir_filter.obj" "frame_and_filter.obj" "gator_kator.obj" "normalize_real.obj" "power_spectrum.obj" "utils.obj" "xcorr.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

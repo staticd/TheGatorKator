@@ -1,3 +1,5 @@
+// TODO: Add sample data and scripts to project
+
 // dsk includes
 #include <C6713dskinit.h>
 #include <dsk6713_dip.h>
@@ -19,13 +21,20 @@
 #include <fft.h>
 #include <power_spectrum.h>
 #include <normalize_real.h>
+#include <utils.h>
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
+/******************************************************************
+ * This is the max delay for distance finding correlation (samples)
+ ******************************************************************/
 #define dist_len 1024
 
-// takes ~60 seconds to perform time domain correlation with this length
+/************************************************************************
+ * This is the max delay for match finding correlation (samples)
+ * -takes ~60 seconds to perform time domain correlation with this length
+ ************************************************************************/
 #define match_len row_len/4
 
 // set sample rate and input source
@@ -43,6 +52,7 @@ volatile short program_control = 0;
 volatile int lcd_control = 0;
 
 // LCD strings
+// TODO: need more granularity here
 int collecting_top[16] = {67, 111, 108, 108, 101, 99, 116, 105, 110, 103, 32, 32, 32, 32, 32, 32}; // "Collecting"
 int collecting_bot[16] = {83, 97, 109, 112, 108, 101, 115, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Samples"
 int signal_detected_top[16] = {83, 105, 103, 110, 97, 108, 32, 68, 101, 116, 101, 99, 116, 101, 100, 33}; // "Signal Detected!"
@@ -52,7 +62,7 @@ int distance_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 32, 32, 32, 32, 32,
 int match_top[16] = {70, 105, 110, 100, 105, 110, 103, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Finding"
 int match_bot[16] = {77, 97, 116, 99, 104, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Match"
 int match_percent_top[16] = {77, 97, 116, 99, 104, 58, 32, 88, 88, 37, 32, 32, 32, 32, 32, 32}; // "Match: XX%"
-int match_percent_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 58, 32, 48, 48, 48, 32, 102, 116}; // "Distance: XXX ft"
+int match_percent_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 58, 32, 48, 48, 48, 32, 102, 116}; // "Distance: xx ft"
 
 /*****************************************************************************
  * Data Buffer Declarations
@@ -76,15 +86,6 @@ struct complex_buffer real_data_buffer;
 
 #pragma DATA_SECTION(soi_data_buffer, ".EXTRAM")
 struct complex_buffer soi_data_buffer;
-
-/*****************************************************************************
- * Function Prototypes
- *****************************************************************************/
-short playback();
-void init_buffer();
-void set_leds();
-void reset_leds();
-void toggle(int, int);
 
 void main() {
 
@@ -121,12 +122,13 @@ void main() {
 	 */
 
 	// initialize soi_data_buffer
-	copy_to_struct(soi, &soi_data_buffer); // put in struct for fft
-	fft(&soi_data_buffer, col_length, stages); // take fft
-	// get average for cross-correlation
+	copy_to_struct(soi, &soi_data_buffer); // copy soi to struct for fft
+	fft(&soi_data_buffer, col_length, stages); // take fft of soi
+
 
 	// TODO: you will have to change power spectrum to only take an array instead of the struct since that's what
 	// we're after here.
+	// TODO: get average for cross-correlation
 	power_spectrum(&soi_data_buffer);
 
 	// begin infinite process
@@ -162,32 +164,26 @@ void main() {
 			// show collecting samples is complete
 			if (signal_status >= (2 * row_len)) {
 
-				// XXX: normalize input_left_buffer
+				// normalize data for near scale invariant correlation
 				normalize_real(input_left_buffer);
-				// XXX: normalize input_right_buffer
-				normalize_real(input_right_buffer);
-
 				/*
 				 * TODO: We don't need to normalize input_right_buffer.  We
 				 * should just copy input_left_buffer to a different array
 				 * for the cross correlation that we do for distance later on
 				 * in the signal processing path.  However, let's just keep it
 				 * simple for now.
-				 *
 				 */
+				normalize_real(input_right_buffer);
+
+				// copy input_left_buffer to struct for fft processing
 				copy_to_struct(input_left_buffer, &real_data_buffer);
 
-				// get fft of real_data_buffer
+				// take fft of real_data_buffer
 				fft(&real_data_buffer, col_length, stages);
 
-				// XXX: average_fft_magnitude
-
 				// get power spectrum
-
-				/*
-				 * TODO: find power spectrum of averaged values first
-				 */
 				power_spectrum(&real_data_buffer);
+				// TODO: take average of power spectrum
 
 				DSK6713_LED_on(0);
 				program_control = 1;
@@ -209,9 +205,9 @@ void main() {
 
 			// pointer gets reference to populated correlation vector with max value and its index
 			dmb = find_max(distance_corr_buffer, 2*dist_len-1, dist_max_buffer);
-			//			printf("max corr: %f\n", dmb[0]);
-			//			printf("lag: %f\n", dmb[1]);
-			//			printf("distance: %f\n", find_distance(dmb[1]));
+			// printf("max corr: %f\n", dmb[0]);
+			// printf("lag: %f\n", dmb[1]);
+			// printf("distance: %f\n", find_distance(dmb[1]));
 
 			program_control = 2;
 			DSK6713_LED_on(1);
@@ -233,6 +229,8 @@ void main() {
 
 			// convert mmb[0] to ascii for display on LCD
 			match_percent = (int)floor((mmb[0] * 100));
+
+			// NOTE: This can be tricky so watch for anomalies!
 			sprintf(match_array, "%d", match_percent);
 
 			// convert dmb[1] to ascii for display on LCD
@@ -244,11 +242,12 @@ void main() {
 				match_percent_top[7] = match_array[0];
 				match_percent_top[8] = match_array[1];
 
-				// Positions are [10] (100) [11] (10) [12] (1)
+				// Positions are [10] (100s) [11] (10s) [12] (1s)
 				if (dist_array[0] == 48) {
 
+					// 42 is `*' in ASCII we do this to denote the distance value is basically garbage right now
 					match_percent_bot[10] = 42;
-					//					printf("**********dist_array: %s\n", dist_array);
+					// printf("**********dist_array: %s\n", dist_array);
 				}
 				else {
 
@@ -260,7 +259,7 @@ void main() {
 				lcd_control = 5;
 			}
 
-			// XXX: cross correlate input spectrum with SOI spectrum to determine match
+			// TODO: cross correlate input spectrum with SOI spectrum to determine match
 
 			program_control = 3;
 			DSK6713_LED_on(2);
@@ -286,62 +285,3 @@ void main() {
 	}
 }
 
-short playback() {
-
-	row_ind++;
-	if (row_ind > row_len) return 0;
-	return (short)input_left_buffer[row_ind];
-}
-
-void init_buffer() {
-
-	int i, j;
-
-	// initialize input buffers
-	for(i = 0; i < row_len; i++) {
-
-		input_left_buffer[i] = 0.0;
-		input_right_buffer[i] = 0.0;
-	}
-
-	for ( i=0; i < row_length ; i++ ) {
-
-		for ( j = 0; j < col_length ; j++) {
-
-			real_data_buffer.data[i][j].real = 0.0;
-			real_data_buffer.data[i][j].imag = 0.0;
-			soi_data_buffer.data[i][j].real = 0.0;
-			soi_data_buffer.data[i][j].imag = 0.0;
-		}
-	}
-}
-
-void reset_leds() {
-
-	int i;
-	for (i = 0; i < 4; i++) {
-
-		DSK6713_LED_off(i);
-	}
-}
-
-void set_leds() {
-
-	int i;
-	for (i = 0; i < 4; i++) {
-
-		DSK6713_LED_on(i);
-
-	}
-}
-
-void toggle(int i, int dip) {
-
-	int q = 0;
-	int junk = 2;
-	while (DSK6713_DIP_get(dip) == 0) {
-
-		DSK6713_LED_toggle(i);
-		for (q = 0; q < 800000; q++) junk = junk*junk;
-	}
-}

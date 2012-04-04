@@ -26,6 +26,7 @@ C_SRCS += \
 ../gator_kator.c \
 ../normalize_real.c \
 ../power_spectrum.c \
+../utils.c \
 ../xcorr.c 
 
 OBJS += \
@@ -43,6 +44,7 @@ OBJS += \
 ./gator_kator.obj \
 ./normalize_real.obj \
 ./power_spectrum.obj \
+./utils.obj \
 ./xcorr.obj 
 
 C_DEPS += \
@@ -60,6 +62,7 @@ C_DEPS += \
 ./gator_kator.pp \
 ./normalize_real.pp \
 ./power_spectrum.pp \
+./utils.pp \
 ./xcorr.pp 
 
 C_DEPS__QUOTED += \
@@ -77,6 +80,7 @@ C_DEPS__QUOTED += \
 "gator_kator.pp" \
 "normalize_real.pp" \
 "power_spectrum.pp" \
+"utils.pp" \
 "xcorr.pp" 
 
 OBJS__QUOTED += \
@@ -94,6 +98,7 @@ OBJS__QUOTED += \
 "gator_kator.obj" \
 "normalize_real.obj" \
 "power_spectrum.obj" \
+"utils.obj" \
 "xcorr.obj" 
 
 C_SRCS__QUOTED += \
@@ -111,6 +116,7 @@ C_SRCS__QUOTED += \
 "../gator_kator.c" \
 "../normalize_real.c" \
 "../power_spectrum.c" \
+"../utils.c" \
 "../xcorr.c" 
 
 
