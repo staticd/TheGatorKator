@@ -1,0 +1,60 @@
+-The algorithm has started with using the same sound everytime.
+-The sound is deep_growl_converted.wav @ 17 seconds.
+-We will list the match value in percent for a number of trials.
+-The volume on my boom box is set to maximum for each trial, independent of track and will be stated if it is not max volume.
+
+/////////////////////////////
+/ deep_growl_converted.wav /
+///////////////////////////
+1-83%
+2-
+3-
+4-
+5-
+6-
+7-
+8-
+9-
+10-
+
+//////////////
+/ Child1.wav /
+/////////////
+1-
+2-
+3-
+4-
+5-
+6-
+7-
+8-
+9-
+10-
+
+////////////////
+/ Dogsbark.wav /
+///////////////
+1-
+2-
+3-
+4-
+5-
+6-
+7-
+8-
+9-
+10-
+
+/////////////////
+/ THEFORCE.wav /
+///////////////
+1-
+2-
+3-
+4-
+5-
+6-
+7-
+8-
+9-
+10-

@@ -79,6 +79,7 @@ float distance_corr_buffer[2*dist_len-1];
 
 // correlation vector length: 2*match_len-1
 #pragma DATA_SECTION(match_corr_buffer, ".EXTRAM")
+// TODO: verify that these buffer lengths are correct--getting into trouble!
 float match_corr_buffer[2*match_len-1];
 
 #pragma DATA_SECTION(real_data_buffer, ".EXTRAM")
@@ -118,7 +119,6 @@ void main() {
 	 *
 	 * A good approach might be to evaluate the two FFT vectors against each
 	 * other and see what that gets you.
-	 *
 	 */
 
 	// initialize soi_data_buffer
