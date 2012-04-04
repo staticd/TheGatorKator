@@ -1,4 +1,8 @@
-// TODO: Add sample data and scripts to project
+/*
+ * TODO:
+ * -what is c6flo diagram?
+ * -average power spectrum and correlate, compare with time domain
+ */
 
 // dsk includes
 #include <C6713dskinit.h>
@@ -104,7 +108,7 @@ void main() {
 	float match_max_buffer[2]; // 0-max, 1-lag
 	float *mmb;
 	int match_percent;
-	char match_array[2];
+	char match_array[2] = {48, 126};
 	char dist_array[3] = {48, 48, 48};
 	int stages = 1;
 
@@ -229,9 +233,6 @@ void main() {
 
 			// convert mmb[0] to ascii for display on LCD
 			match_percent = (int)floor((mmb[0] * 100));
-
-			// NOTE: This can be tricky so watch for anomalies!
-			// TODO: problem found!  You need to account for single digit percentages!
 			sprintf(match_array, "%d", match_percent);
 
 			// convert dmb[1] to ascii for display on LCD
@@ -240,9 +241,18 @@ void main() {
 			if (lcd_control == 4) {
 
 				// populate top row values
-				// TODO: need to account for single digit percentages.
-				match_percent_top[7] = match_array[0];
-				match_percent_top[8] = match_array[1];
+				if (match_array[1] == 0) { // only valid if behavior of sprintf is consistent
+
+					// we do this to account for single digit percentages
+					match_percent_top[7] = 32;
+					match_percent_top[8] = match_array[0];
+				}
+				else {
+
+					match_percent_top[7] = match_array[0];
+					match_percent_top[8] = match_array[1];
+				}
+
 
 				// Positions are [10] (100s) [11] (10s) [12] (1s)
 				if (dist_array[0] == 48) {
