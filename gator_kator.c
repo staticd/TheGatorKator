@@ -28,20 +28,6 @@
 #include <utils.h>
 #include <average_fft_magnitude.h>
 
-#define DSK6713_AIC23_INPUT_MIC 0x0015
-#define DSK6713_AIC23_INPUT_LINE 0x0011
-
-/******************************************************************
- * This is the max delay for distance finding correlation (samples)
- ******************************************************************/
-#define dist_len 1024
-
-/************************************************************************
- * This is the max delay for match finding correlation (samples)
- * -takes ~60 seconds to perform time domain correlation with this length
- ************************************************************************/
-#define match_len row_len/4
-
 // set sample rate and input source
 Uint32 fs = DSK6713_AIC23_FREQ_8KHZ; // set sampling rate
 Uint16 inputsource = DSK6713_AIC23_INPUT_LINE; // select input source
@@ -68,6 +54,8 @@ int match_top[16] = {70, 105, 110, 100, 105, 110, 103, 32, 32, 32, 32, 32, 32, 3
 int match_bot[16] = {77, 97, 116, 99, 104, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Match"
 int match_percent_top[16] = {77, 97, 116, 99, 104, 58, 32, 88, 88, 37, 32, 32, 32, 32, 32, 32}; // "Match: XX%"
 int match_percent_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 58, 32, 48, 48, 48, 32, 102, 116}; // "Distance: xx ft"
+int reset_top[16] = {82, 101, 97, 100, 121, 33, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32};
+int reset_bot[16] = {32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32};
 
 /*****************************************************************************
  * Data Buffer Declarations
@@ -92,6 +80,11 @@ struct complex_buffer real_data_buffer;
 #pragma DATA_SECTION(soi_data_buffer, ".EXTRAM")
 struct complex_buffer soi_data_buffer;
 
+// test move back to main
+float average_fft_power_input[col_length];
+float average_fft_power_soi[col_length];
+float fft_corr_buffer[2*col_length-1];
+// test move back to main
 void main() {
 
 	comm_poll(); // initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
@@ -112,10 +105,10 @@ void main() {
 	char dist_array[3] = {48, 48, 48};
 	int stages = 1;
 	float *av_fft_power_soi;
-	float average_fft_power_soi[col_length];
+
 	float *av_fft_power_input;
-	float average_fft_power_input[col_length];
-	float fft_corr_buffer[2*col_length-1];
+
+
 
 	// initialize sample input buffers
 	init_buffer();
@@ -237,11 +230,16 @@ void main() {
 				lcd_control = 4;
 			}
 
+			// XXX testing fft correlation only
 			// compute cross correlation of input and signal of interest
-			xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
+			//xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
+			// TODO: cross correlate input spectrum with SOI spectrum to determine match
+			xcorr(av_fft_power_input, av_fft_power_soi, 60, fft_corr_buffer);
+			// XXX
 
 			// determine max coefficient and lag position
-			mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
+			//mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
+			mmb = find_max(fft_corr_buffer, 2*col_length-1, match_max_buffer);
 
 			// debug
 			// printf("match max corr: %f\n", mmb[0]);
@@ -289,22 +287,21 @@ void main() {
 				lcd_control = 5;
 			}
 
-			// TODO: cross correlate input spectrum with SOI spectrum to determine match
-			xcorr(av_fft_power_input, av_fft_power_soi, col_length, fft_corr_buffer);
-
 			program_control = 3;
 			DSK6713_LED_on(2);
 		}
 
 		// reset
-		if (DSK6713_DIP_get(3) == 0) {
+		if ((DSK6713_DIP_get(3) == 0) && (program_control != 0)) {
 
 			// TODO: reset does not work, must fix
+			reset_leds();
 			DSK6713_LED_on(3);
 			program_control = -1;
-			reset_leds();
-			//toggle(3, 3);
 			init_buffer();
+			init_match_array(match_array);
+			init_dist_array(dist_array);
+			init_fft_corr_buffer(average_fft_power_input);
 			row_ind = 0;
 			signal_status = 0;
 			signal_on = 0; // frame_and_filter global
@@ -312,6 +309,8 @@ void main() {
 			program_control = 0;
 			lcd_control = 0;
 			DSK6713_LED_off(3);
+			set_LCD_characters(reset_top, reset_bot);
+			send_LCD_characters();
 		}
 	}
 }

@@ -27,6 +27,18 @@ void init_buffer() {
 		input_right_buffer[i] = 0.0;
 	}
 
+	// initialize correlation buffers
+	for (i = 0; i < 2*dist_len-1; i++) {
+
+		distance_corr_buffer[i] = 0.0;
+	}
+
+	for (i = 0; i < 2*match_len-1; i++) {
+
+		match_corr_buffer[i] = 0.0;
+	}
+
+	// initialize data structures
 	for ( i=0; i < row_length ; i++ ) {
 
 		for ( j = 0; j < col_length ; j++) {
@@ -39,12 +51,59 @@ void init_buffer() {
 	}
 }
 
+void init_match_array(char *m_a) {
+
+	int i;
+
+	// indexes hard coded
+	short init_m[2] = {48, 126};
+
+	for (i = 0; i < 2; i++) {
+
+		m_a[i] = init_m[i];
+	}
+}
+
+void init_dist_array(char *d_a) {
+
+	int i;
+
+	// indexes hard coded
+	short init_d[3] = {48, 48, 48};
+
+	for (i = 0; i < 3; i++) {
+
+		d_a[i] = init_d[i];
+	}
+
+}
+
+void init_fft_corr_buffer(float *av_p) {
+
+	int i;
+
+	for (i = 0; i < col_length; i++) {
+
+		av_p[i] = 0.0;
+	}
+}
+
 void reset_leds() {
 
 	int i;
 	for (i = 0; i < 4; i++) {
 
 		DSK6713_LED_off(i);
+	}
+}
+
+void init_fft_corr_vector (float *fft_corr) {
+
+	int i;
+
+	for (i = 0; i < 2*col_length-1; i++) {
+
+		fft_corr[i] = 0.0;
 	}
 }
 

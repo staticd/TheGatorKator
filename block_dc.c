@@ -7,9 +7,7 @@
 
 #include <block_dc.h>
 
-// block_dc
 #define dc_coeff 10	// coefficient for the DC blocking filter
-// block_dc
 
 /**************************************************
  * Function: block_dc is based on block_dc.c
@@ -42,8 +40,6 @@ short block_dc(short sample) {
 	 * It turns out that this function just returns:
 	 * 	if sample < 0 --> return sample - 1
 	 * 	if sample > 0 --> return sample
-	 *
-	 * We need a much better dc blocker than this!
 	 ***********************************************/
 	dc = word1 * (32767 - dc_coeff) +
 			((word2 * (32767 - dc_coeff)) >> 15) +

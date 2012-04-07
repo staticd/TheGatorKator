@@ -52,6 +52,9 @@ void fft (struct complex_buffer *input_data, int n, int m) {
 					input_data->data[row_index][i].imag = input_data->data[row_index][i].imag+input_data->data[row_index][l].imag;
 					input_data->data[row_index][l].real = c*xt + s*yt;
 					input_data->data[row_index][l].imag = c*yt - s*yt;
+
+					// debug
+					// printf("sample for fft: %d\n", l);
 				}
 			}
 		}
