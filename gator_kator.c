@@ -51,11 +51,15 @@ int signal_detected_bot[16] = {45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 4
 int distance_top[16] = {70, 105, 110, 100, 105, 110, 103, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Finding"
 int distance_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 32, 32, 32, 32, 32, 32, 32, 32}; // "Distance"
 int match_top[16] = {70, 105, 110, 100, 105, 110, 103, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Finding"
-int match_bot[16] = {77, 97, 116, 99, 104, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Match"
+int match_bot[16] = {77, 97, 116, 99, 104, 32, 40, 116, 105, 109, 101, 41, 32, 32, 32, 32}; // "Match (time)"
+int match_bot1[16] = {77, 97, 116, 99, 104, 32, 40, 102, 114, 101, 113, 41, 32, 32, 32, 32}; // "Match (freq)"
 int match_percent_top[16] = {77, 97, 116, 99, 104, 58, 32, 88, 88, 37, 32, 32, 32, 32, 32, 32}; // "Match: XX%"
 int match_percent_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 58, 32, 48, 48, 48, 32, 102, 116}; // "Distance: xx ft"
-int reset_top[16] = {82, 101, 97, 100, 121, 33, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32};
-int reset_bot[16] = {32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32};
+int reset_top[16] = {82, 101, 97, 100, 121, 33, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Ready!"
+int reset_bot[16] = {32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "[:space:]"
+int ident_top[16] = {84, 104, 97, 116, 32, 115, 111, 117, 110, 100, 32, 32, 32, 32, 32, 32}; // "That sound"
+int ident_bot[16] = {116, 104, 101, 114, 101, 39, 115, 32, 97, 32, 103, 97, 116, 111, 114, 33}; // "there's a gator!"
+int ident_bot1[16] = {97, 105, 110, 39, 116, 32, 110, 111, 32, 103, 97, 116, 111, 114, 33, 32}; // "ain't no gator"
 
 /*****************************************************************************
  * Data Buffer Declarations
@@ -80,11 +84,12 @@ struct complex_buffer real_data_buffer;
 #pragma DATA_SECTION(soi_data_buffer, ".EXTRAM")
 struct complex_buffer soi_data_buffer;
 
-// test move back to main
+// test move back to main--for graphing globals in CCS
 float average_fft_power_input[col_length];
 float average_fft_power_soi[col_length];
 float fft_corr_buffer[2*col_length-1];
 // test move back to main
+
 void main() {
 
 	comm_poll(); // initialize interrupts from c6713DSKinit.asm (codec, McBSP, and DSK)
@@ -105,32 +110,17 @@ void main() {
 	char dist_array[3] = {48, 48, 48};
 	int stages = 1;
 	float *av_fft_power_soi;
-
 	float *av_fft_power_input;
-
-
+	int i;
+	const int match_threshold = 55;
 
 	// initialize sample input buffers
 	init_buffer();
 
-	/*
-	 * TODO: I think we realize now that the best way to find a match is with
-	 * the use of the FFT.  If we don't do this, we are going to be continuously
-	 * searching for this perfect match in time between the sample you have in
-	 * soi.h and whatever samples you collect.
-	 *
-	 * A good approach might be to evaluate the two FFT vectors against each
-	 * other and see what that gets you.
-	 */
-
 	// initialize soi_data_buffer
 	copy_to_struct(soi, &soi_data_buffer); // copy soi to struct for fft
 	fft(&soi_data_buffer, col_length, stages); // take fft of soi
-
-	// TODO: you will have to change power spectrum to only take an array instead of the struct since that's what
-	// we're after here.
-	// TODO: get average for cross-correlation
-	power_spectrum(&soi_data_buffer);
+	power_spectrum(&soi_data_buffer); // put power spectrum in real member
 	av_fft_power_soi = average_fft_magnitude(&soi_data_buffer, average_fft_power_soi); // find average of 256 point fft
 
 	// begin infinite process
@@ -139,6 +129,7 @@ void main() {
 		// collect samples
 		if ((DSK6713_DIP_get(0) == 0) && program_control == 0) {
 
+			// indicate status to the user
 			if (lcd_control == 0) {
 
 				set_LCD_characters(collecting_top, collecting_bot);
@@ -146,6 +137,7 @@ void main() {
 				lcd_control = 1;
 			}
 
+			// indicate status to the user
 			if ((row_index > 0) && (lcd_control == 1)) {
 
 				set_LCD_characters(signal_detected_top, signal_detected_bot);
@@ -181,16 +173,14 @@ void main() {
 				// copy input_left_buffer to struct for fft processing
 				copy_to_struct(input_left_buffer, &real_data_buffer);
 
-				// take fft of real_data_buffer
-				fft(&real_data_buffer, col_length, stages);
-
-				// get power spectrum
-				power_spectrum(&real_data_buffer);
+				fft(&real_data_buffer, col_length, stages); // take fft of real_data_buffer
+				power_spectrum(&real_data_buffer); // get power spectrum
 				av_fft_power_input = average_fft_magnitude(&real_data_buffer, average_fft_power_input); // find average of 256 point fft
 
-				// TODO: take average of power spectrum
-
+				// indicate we are ready for the next stage
 				DSK6713_LED_on(0);
+
+				// move to the next stage
 				program_control = 1;
 			}
 		}
@@ -198,6 +188,7 @@ void main() {
 		// cross correlate left and right channels to get tau and best match coefficients
 		if ((DSK6713_DIP_get(1) == 0) && program_control == 1) {
 
+			// indicate status to the user
 			if (lcd_control == 2) {
 
 				set_LCD_characters(distance_top, distance_bot);
@@ -216,30 +207,47 @@ void main() {
 			// printf("lag: %f\n", dmb[1]);
 			// printf("distance: %f\n", find_distance(dmb[1]));
 
-			program_control = 2;
+			// indicate we are ready for the next stage
 			DSK6713_LED_on(1);
+
+			// move to the next stage
+			program_control = 2;
 		}
 
 		// cross correlate left channel with soi.h to get match
 		if ((DSK6713_DIP_get(2) == 0) && program_control == 2) {
 
-			if (lcd_control == 3) {
 
-				set_LCD_characters(match_top, match_bot);
-				send_LCD_characters();
-				lcd_control = 4;
+
+			// if dip 0 and 1 and 2 are down, use fft correlation
+			if ((DSK6713_DIP_get(0) == 0) && (DSK6713_DIP_get(1) == 0)) {
+
+				// indicate status to the user
+				if (lcd_control == 3) {
+
+					set_LCD_characters(match_top, match_bot1);
+					send_LCD_characters();
+					lcd_control = 4;
+				}
+
+				xcorr(av_fft_power_input, av_fft_power_soi, 60, fft_corr_buffer);
+				mmb = find_max(fft_corr_buffer, 2*col_length-1, match_max_buffer);
 			}
 
-			// XXX testing fft correlation only
-			// compute cross correlation of input and signal of interest
-			//xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
-			// TODO: cross correlate input spectrum with SOI spectrum to determine match
-			xcorr(av_fft_power_input, av_fft_power_soi, 60, fft_corr_buffer);
-			// XXX
+			// if dip 0 is up, use time domain correlation
+			else if (DSK6713_DIP_get(0) == 1) {
 
-			// determine max coefficient and lag position
-			//mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
-			mmb = find_max(fft_corr_buffer, 2*col_length-1, match_max_buffer);
+				// indicate status to the user
+				if (lcd_control == 3) {
+
+					set_LCD_characters(match_top, match_bot);
+					send_LCD_characters();
+					lcd_control = 4;
+				}
+
+				xcorr(input_left_buffer, soi, match_len, match_corr_buffer);
+				mmb = find_max(match_corr_buffer, 2*match_len-1, match_max_buffer);
+			}
 
 			// debug
 			// printf("match max corr: %f\n", mmb[0]);
@@ -289,12 +297,28 @@ void main() {
 
 			program_control = 3;
 			DSK6713_LED_on(2);
+
+			// delay display and move on
+			for (i = 0; i <= 1000; i++) {
+
+				delay_lcd();
+			}
+
+			if (match_percent >= match_threshold) {
+
+				set_LCD_characters(ident_top, ident_bot);
+				send_LCD_characters();
+			}
+			else {
+
+				set_LCD_characters(ident_top, ident_bot1);
+				send_LCD_characters();
+			}
 		}
 
 		// reset
 		if ((DSK6713_DIP_get(3) == 0) && (program_control != 0)) {
 
-			// TODO: reset does not work, must fix
 			reset_leds();
 			DSK6713_LED_on(3);
 			program_control = -1;
@@ -314,4 +338,3 @@ void main() {
 		}
 	}
 }
-
