@@ -1,7 +1,6 @@
 /*
  * TODO:
  * -what is c6flo diagram?
- * -average power spectrum and correlate, compare with time domain
  */
 
 // dsk includes
@@ -43,13 +42,12 @@ volatile short program_control = 0;
 volatile int lcd_control = 0;
 
 // LCD strings
-// TODO: need more granularity here
 int collecting_top[16] = {67, 111, 108, 108, 101, 99, 116, 105, 110, 103, 32, 32, 32, 32, 32, 32}; // "Collecting"
 int collecting_bot[16] = {83, 97, 109, 112, 108, 101, 115, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Samples"
 int signal_detected_top[16] = {83, 105, 103, 110, 97, 108, 32, 68, 101, 116, 101, 99, 116, 101, 100, 33}; // "Signal Detected!"
 int signal_detected_bot[16] = {45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45}; // "----"
 int distance_top[16] = {70, 105, 110, 100, 105, 110, 103, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Finding"
-int distance_bot[16] = {68, 105, 115, 116, 97, 110, 99, 101, 32, 32, 32, 32, 32, 32, 32, 32}; // "Distance"
+int distance_bot[16] = {68, 105, 114, 101, 99, 116, 105, 111, 110, 32, 32, 32, 32, 32, 32, 32}; // "Direction"
 int match_top[16] = {70, 105, 110, 100, 105, 110, 103, 32, 32, 32, 32, 32, 32, 32, 32, 32}; // "Finding"
 int match_bot[16] = {77, 97, 116, 99, 104, 32, 40, 116, 105, 109, 101, 41, 32, 32, 32, 32}; // "Match (time)"
 int match_bot1[16] = {77, 97, 116, 99, 104, 32, 40, 102, 114, 101, 113, 41, 32, 32, 32, 32}; // "Match (freq)"
@@ -88,6 +86,7 @@ struct complex_buffer soi_data_buffer;
 float average_fft_power_input[col_length];
 float average_fft_power_soi[col_length];
 float fft_corr_buffer[2*col_length-1];
+float dist_max_buffer[2]; // 0-max, 1-lag
 // test move back to main
 
 void main() {
@@ -101,7 +100,7 @@ void main() {
 	// declare local variables
 	short left_sample_data;
 	short right_sample_data;
-	float dist_max_buffer[2]; // 0-max, 1-lag
+
 	float *dmb;
 	float match_max_buffer[2]; // 0-max, 1-lag
 	float *mmb;
@@ -113,6 +112,8 @@ void main() {
 	float *av_fft_power_input;
 	int i;
 	const int match_threshold = 55;
+	const float direction_threshold = (float)(dist_len/2);
+	const float direction_threshold1 = direction_threshold - 1.0;
 
 	// initialize sample input buffers
 	init_buffer();
@@ -257,8 +258,28 @@ void main() {
 			match_percent = (int)floor((mmb[0] * 100));
 			sprintf(match_array, "%d", match_percent);
 
-			// convert dmb[1] to ascii for display on LCD
-			sprintf(dist_array, "%d", ceil(find_distance(dmb[1])));
+			// determine orientation relative to microphones
+			if ((dmb[1] == direction_threshold1) || (dmb[1] == direction_threshold)) {
+
+				// FWD
+				match_percent_bot[10] = 70;
+				match_percent_bot[11] = 87;
+				match_percent_bot[12] = 68;
+			}
+			else if (dmb[1] > direction_threshold) {
+
+				// LFT
+				match_percent_bot[10] = 76;
+				match_percent_bot[11] = 70;
+				match_percent_bot[12] = 84;
+			}
+			else if (dmb[1] < direction_threshold1) {
+
+				// RHT
+				match_percent_bot[10] = 82;
+				match_percent_bot[11] = 72;
+				match_percent_bot[12] = 84;
+			}
 
 			if (lcd_control == 4) {
 
@@ -275,21 +296,7 @@ void main() {
 					match_percent_top[8] = match_array[1];
 				}
 
-
-				// Positions are [10] (100s) [11] (10s) [12] (1s)
-				if (dist_array[0] == 48) {
-
-					// 42 is `*' in ASCII we do this to denote the distance value is basically garbage right now
-					match_percent_bot[10] = 42;
-
-					// debug
-					// printf("**********dist_array: %s\n", dist_array);
-				}
-				else {
-
-					// TODO: populate the reset when we can calculate distance!
-				}
-
+				// indicate results to user
 				set_LCD_characters(match_percent_top, match_percent_bot);
 				send_LCD_characters();
 				lcd_control = 5;

@@ -8,10 +8,14 @@
 #include <math.h>
 #include <stdio.h>
 
+// test move back in scope--ccs global
+float index = 0.0;
+// test move back in scope--ccs global
+
 float *find_max(float *a, int length, float *ret_buffer) {
 
 	float max = a[0];
-	float index = 0.0;
+
 	float lag = 0.0;
 	int i;
 	float temp;
@@ -23,12 +27,14 @@ float *find_max(float *a, int length, float *ret_buffer) {
 
 			max = a[i];
 			index = (float)i;
-			//printf("%f\n", index);
+
+			// debug
+			// printf("%f\n", index);
 		}
 	}
 
 	ret_buffer[0] = max; // this is the max correlation coeff
-	temp = ((float)(length/2) - index) * (1/samp_rate);
+	temp = index; //((float)(length/2) - index) * (1/samp_rate);
 
 	// debug
 	// printf("temp: %f\n", temp);
