@@ -9,7 +9,7 @@
 
 void normalize_real (float *data) {
 
-	/*
+	/**************************************************************************
 	 * In this function, we want to normalize the signal so that the maximum
 	 * amplitude is one.  We will do this prior to performing any other action.
 	 *
@@ -17,8 +17,7 @@ void normalize_real (float *data) {
 	 * the input signal for cross correlation.
 	 *
 	 * We are doing this to attempt a scaled invariant cross-correlation.
-	 *
-	 */
+	 **************************************************************************/
 
 	int ii;
 	float max = 0.0;

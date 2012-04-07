@@ -10,7 +10,7 @@
 // EMIF address
 #define IOPORT 0xA1111111
 
-//test
+// test
 #define OUTPUT 0xA0000000
 int *output = (int *) OUTPUT;
 
@@ -19,9 +19,6 @@ int *ioport = (int *)IOPORT;
 
 // temp storage
 int input, output1;
-
-// holds FFT array after downsizing
-float bandage[16];
 
 // toprow ==> "The GatorKator  "
 int toprow[16] = {84, 104, 101, 32, 71, 97, 116, 111, 114, 75, 97, 116, 111, 114, 32, 32};
@@ -61,6 +58,7 @@ void set_LCD_characters(int *t, int *b)
 void send_LCD_characters()
 {
 	int m = 0;
+
 	// start address
 	LCD_PUT_CMD(LCD_FIRST_LINE);
 

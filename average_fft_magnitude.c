@@ -21,11 +21,6 @@ float *average_fft_magnitude (struct complex_buffer *input, float *ret_buffer) {
 	int ii, jj;
 	float sum = 0;
 
-	/*
-	 * TODO: This average looks like garbage because you are getting a bunch of
-	 * #QNAN and #NAN values over the fft results.  This must be fixed.
-	 */
-
 	// find average along each column after computing power spectrum in power_spectrum.c
 	for (ii = 0; ii < row_length; ii++) {
 

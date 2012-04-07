@@ -8,10 +8,8 @@
 #include <detect_envelope.h>
 #include <block_dc.h>
 
-// detect_envelope
-#define env_coeff 4000	// 32768  envelope filter parameter
-int envelope = 0;	// current sample of the signal envelope (32-bit)
-// detect_envelope
+#define env_coeff 4000 // 32768  envelope filter parameter
+int envelope = 0; // current sample of the signal envelope (32-bit)
 
 /*********************************************************
  * Function: detect_envelope is based on detect_envelope.c
@@ -30,6 +28,7 @@ short detect_envelope(short sample)
 
 	// high-order word
 	word1 = envelope >> 15;
+
 	// low-order word
 	word2 = envelope & 0x00007fff;
 

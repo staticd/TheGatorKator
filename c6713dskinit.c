@@ -173,7 +173,7 @@ void c6713_dsk_init() {
 			MCBSP_SRGR_START | MCBSP_SRGR_FRAMESYNC, 220);
 }
 
-//added for communication/init using polling
+// added for communication/init using polling
 void comm_poll() {
 
 	// 1 if using polling
@@ -200,9 +200,9 @@ void comm_intr() {
 
 	// do not need to point to vector table
 	#ifndef using_bios
-	//point to the IRQ vector table
+	// point to the IRQ vector table
 	IRQ_setVecs(vectors);
-	//since interrupt vector handles this
+	// since interrupt vector handles this
 	#endif
 
 	// map McBSP1 Xmit to INT11
@@ -293,14 +293,14 @@ Uint32 input_sample() {
 	// if ready to receive
 	if (poll) while(!MCBSP_rrdy(DSK6713_AIC23_DATAHANDLE));
 
-	//read data
+	// read data
 	AIC_data.uint=MCBSP_read(DSK6713_AIC23_DATAHANDLE);
 
 	/********************************************************************
 	 * Swapping left and right channels (see comments in output_sample())
 	 ********************************************************************/
 
-	//swap left and right channel
+	// swap left and right channel
 	CHANNEL_data=AIC_data.channel[RIGHT];
 	AIC_data.channel[RIGHT]=AIC_data.channel[LEFT];
 	AIC_data.channel[LEFT]=CHANNEL_data;

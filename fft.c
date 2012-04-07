@@ -11,9 +11,11 @@
 
 #define PI 3.1415926
 
+/*************************************************************
+ * Function: fft is based on function in speaker_recognition.c
+ * Written by Vasanthan Rangan and Sowmya Narayanan
+ *************************************************************/
 void fft (struct complex_buffer *input_data, int n, int m) {
-
-	//	printf("computing fft\n");
 
 	int n1; // difference between upper and lower
 	int n2;
@@ -52,9 +54,6 @@ void fft (struct complex_buffer *input_data, int n, int m) {
 					input_data->data[row_index][i].imag = input_data->data[row_index][i].imag+input_data->data[row_index][l].imag;
 					input_data->data[row_index][l].real = c*xt + s*yt;
 					input_data->data[row_index][l].imag = c*yt - s*yt;
-
-					// debug
-					// printf("sample for fft: %d\n", l);
 				}
 			}
 		}
@@ -74,8 +73,6 @@ void fft (struct complex_buffer *input_data, int n, int m) {
 			}
 		}
 	}
-
-	//	printf("done!!!\n");
 
 	return;
 }

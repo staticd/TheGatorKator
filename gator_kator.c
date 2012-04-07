@@ -82,12 +82,8 @@ struct complex_buffer real_data_buffer;
 #pragma DATA_SECTION(soi_data_buffer, ".EXTRAM")
 struct complex_buffer soi_data_buffer;
 
-// test move back to main--for graphing globals in CCS
-float average_fft_power_input[col_length];
-float average_fft_power_soi[col_length];
+#pragma DATA_SECTION(fft_corr_buffer, ".EXTRAM")
 float fft_corr_buffer[2*col_length-1];
-float dist_max_buffer[2]; // 0-max, 1-lag
-// test move back to main
 
 void main() {
 
@@ -100,7 +96,6 @@ void main() {
 	// declare local variables
 	short left_sample_data;
 	short right_sample_data;
-
 	float *dmb;
 	float match_max_buffer[2]; // 0-max, 1-lag
 	float *mmb;
@@ -114,6 +109,10 @@ void main() {
 	const int match_threshold = 55;
 	const float direction_threshold = (float)(dist_len/2);
 	const float direction_threshold1 = direction_threshold - 1.0;
+	const int foi = 60; // frequency range of interest for fft xcorr 0 to ~ 1 kHz
+	float average_fft_power_input[col_length];
+	float average_fft_power_soi[col_length];
+	float dist_max_buffer[2]; // 0-max, 1-lag
 
 	// initialize sample input buffers
 	init_buffer();
@@ -231,7 +230,7 @@ void main() {
 					lcd_control = 4;
 				}
 
-				xcorr(av_fft_power_input, av_fft_power_soi, 60, fft_corr_buffer);
+				xcorr(av_fft_power_input, av_fft_power_soi, foi, fft_corr_buffer);
 				mmb = find_max(fft_corr_buffer, 2*col_length-1, match_max_buffer);
 			}
 
@@ -310,6 +309,9 @@ void main() {
 
 				delay_lcd();
 			}
+
+			// debug
+			// printf("match pecent: %d\n", match_percent);
 
 			if (match_percent >= match_threshold) {
 

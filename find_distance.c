@@ -7,10 +7,18 @@
 
 #include <math.h>
 
+/*
+ * TODO: deprecate
+ * This function is not called.  We can use it when we add a third microphone
+ * to the project.
+ */
+
 // speed of sound at sea level and room temp (ft/s)
 #define SPEED_OF_SOUND 1116.43701
+
 // distance between mics (ft)
 #define MIC_DISTANCE 10.0
+
 // this is the bias with no separation
 #define DISTANCE_BIAS 61.0
 

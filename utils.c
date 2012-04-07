@@ -127,4 +127,3 @@ void toggle(int i, int dip) {
 		for (q = 0; q < 800000; q++) junk = junk*junk;
 	}
 }
-

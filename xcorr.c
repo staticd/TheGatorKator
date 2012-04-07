@@ -14,6 +14,10 @@ double mx, my, sx, sy, sxy, denom;
 
 // TODO: establish scale invariant cross correlation
 
+/****************************************************************
+ * Function: xcorr is based on pseudo-code written by Paul Bourke
+ * found at: http://paulbourke.net/miscellaneous/correlate/
+ ****************************************************************/
 void xcorr(float *x, float *y, int length, float *r) {
 
 	int maxdelay = length/2;

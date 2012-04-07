@@ -8,6 +8,10 @@
 #include <gator_kator.h>
 #include <math.h>
 
+/************************************************************************
+ * Function: power_spectrum is based on function in speaker_recognition.c
+ * Written by Vasanthan Rangan and Sowmya Narayanan
+ ************************************************************************/
 power_spectrum(struct complex_buffer *fft_data) {
 
 	int i,j;
