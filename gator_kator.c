@@ -1,4 +1,15 @@
 /*
+ * Author: staticd
+ *
+ * Description: A simple acoustic signal identification and direction finding
+ * project implemented on a TMS320C6713 DSK by Spectrum Digital.  Developed
+ * using TI's Code Composer Stuiod v5.
+ *
+ * Info:
+ * -check out the docs section for other useful info
+ * -check out the matlab_models_and_scripts for the proof of concept
+ * -check out the pics for a look at the set up
+ *
  * TODO:
  * -what is c6flo diagram?
  */
