@@ -258,6 +258,7 @@ void main() {
 			sprintf(match_array, "%d", match_percent);
 
 			// determine orientation relative to microphones
+			// check child1 for threshold because a few were off center
 			if ((dmb[1] == direction_threshold1) || (dmb[1] == direction_threshold)) {
 
 				// FWD
@@ -304,7 +305,7 @@ void main() {
 			program_control = 3;
 			DSK6713_LED_on(2);
 
-			// delay display and move on
+			// delay display and move on 10000 is about 5 seconds
 			for (i = 0; i <= 10000; i++) {
 
 				delay_lcd();
